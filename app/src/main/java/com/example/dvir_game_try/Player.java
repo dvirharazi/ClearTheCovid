@@ -26,7 +26,7 @@ public class Player {
         width = (int) (width * screenRatioX);
         height = (int)(height*screenRatioY);
 
-        y = (int) (screenY - 400 *screenRatioY);
+        y = (int) ((screenY - 400) * screenRatioY);
         x = (int) (64 * screenRatioX);
 
     }

@@ -62,8 +62,6 @@ public class GameView extends SurfaceView implements Runnable {
         background1 = new Background(screenX, screenY, getResources());
         background2 = new Background(screenX, screenY, getResources());
 
-//        injections = new ArrayList<>();
-
         player = new Player(this, screenY, getResources());
 
         background2.x = screenX;
@@ -94,8 +92,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void update() {
 
-        background1.x -= 10 * screenRatioX;
-        background2.x -= 10 * screenRatioX;
+        background1.x -= 10;
+        background2.x -= 10;
 
         if (background1.x + background1.background.getWidth() < 0) { //all the image outside the screen
             background1.x = screenX;
@@ -209,7 +207,7 @@ public class GameView extends SurfaceView implements Runnable {
                 waitBeforeExiting();
                 return;
             }
-            Glide.with(this.activity).asGif().load(R.drawable.running_right).into(new SimpleTarget<GifDrawable>() {
+            Glide.with(this.activity).asGif().load(R.drawable.run_left).into(new SimpleTarget<GifDrawable>() {
                 @Override
                 public void onResourceReady(@NonNull GifDrawable resource, @Nullable Transition<? super GifDrawable> transition) {
                     resource.setBounds(player.getCollisionShape());
@@ -217,7 +215,6 @@ public class GameView extends SurfaceView implements Runnable {
                     resource.start();
                 }
             });
-
             getHolder().unlockCanvasAndPost(canvas);
         }
     }
@@ -294,8 +291,10 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP:
                 for (People people : peoples) {
                     if (people.getCollisionShape().contains(x, y)) {
-                        people.Covered(true);
-                        score++;
+                        if(!people.wasCovered){
+                            people.Covered(true);
+                            score++;
+                        }
                     }
                 }
         }
