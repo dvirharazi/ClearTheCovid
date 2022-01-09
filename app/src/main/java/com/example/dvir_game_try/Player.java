@@ -16,7 +16,6 @@ public class Player {
     int x, y, width, height, playerCounter = 0, shootCounter = 1;
 
     Player(GameView gameView, int screenY, Resources resources) {
-
         width = 890;
         height = 890;
 

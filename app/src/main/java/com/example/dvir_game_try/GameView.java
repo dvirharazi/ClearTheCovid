@@ -288,7 +288,7 @@ public class GameView extends SurfaceView implements Runnable {
         int x = (int) event.getX();
         int y = (int) event.getY();
         switch (event.getAction()) {
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_DOWN:
                 for (People people : peoples) {
                     if (people.getCollisionShape().contains(x, y)) {
                         if(!people.wasCovered){
