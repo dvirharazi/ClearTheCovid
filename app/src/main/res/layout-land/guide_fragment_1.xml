@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:elevation="3dp"
+    android:clickable="true"
+    android:background="@drawable/background_game">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="your enemies:"
+        android:id="@+id/enemy_text"
+        android:layout_margin="100dp"
+        android:layout_centerVertical="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/enemy_text"
+        android:id="@+id/list_of_enemies"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@drawable/enemies_layout_random">
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enemy_text"
+        android:layout_centerInParent="true"
+        android:text="next"
+        android:id="@+id/next_btn"/>
+</RelativeLayout>

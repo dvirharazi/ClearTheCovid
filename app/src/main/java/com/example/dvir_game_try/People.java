@@ -8,13 +8,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+import java.io.Serializable;
 
-public class People extends ObjectView {
+
+public class People extends ObjectView implements Serializable {
     public boolean wasCovered = false;
     Bitmap unmaskedPeople, maskedPeople;
+    int picture;
 
     People(Resources resources, int picture){
         super(resources, picture);
+        this.picture = picture;
         this.resources = resources;
 
     }
@@ -24,7 +28,7 @@ public class People extends ObjectView {
             this.wasCovered = true;
             setPicture(R.drawable.masked);
         }
-        else setPicture(R.drawable.unmasked);
+        else setPicture(this.picture);
     }
     Rect getCollisionShape(){
         return new Rect(x, y, (int) (x + width), (int) (y+ height));
@@ -37,5 +41,9 @@ public class People extends ObjectView {
             lives--;
         }
         return lives;
+    }
+
+    public int getPicture() {
+        return picture;
     }
 }

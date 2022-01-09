@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -36,19 +37,24 @@ public class GameView extends SurfaceView implements Runnable {
     private Player player;
     int updateLives;
     private SharedPreferences sp;
-    //    private List<Injection> injections;
-//    private Covid[] covids;
     private ArrayList<Covid> covids = new ArrayList<>();
     private ArrayList<People> peoples = new ArrayList<>();
+    private ArrayList<People> enemies = new ArrayList<>();
+    private int [] enemiesArr;
 
+    List<Integer> picPeople = new ArrayList<>(Arrays.asList(
+            R.drawable.people_1,R.drawable.people_2,R.drawable.people_3,R.drawable.people_4,
+                    R.drawable.people_5, R.drawable.people_6, R.drawable.people_7,R.drawable.people_8, R.drawable.people_9,
+                    R.drawable.people_10, R.drawable.people_11, R.drawable.people_12, R.drawable.people_13,
+                    R.drawable.people_14,R.drawable.people_15,R.drawable.people_16,R.drawable.people_18,R.drawable.people_19,
+                    R.drawable.people_20, R.drawable.people_21));
     private int lives = 3;
-    //    private People[] peoples;
     private Random random;
     private GameActivity activity;
     public static float screenRatioX, screenRatioY;
     private Background background1, background2;
 
-    public GameView(GameActivity activity, int screenX, int screenY) {
+    public GameView(GameActivity activity, int screenX, int screenY, int [] enemiesArr) {
         super(activity);
 
         this.activity = activity;
@@ -70,15 +76,25 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setTextSize(128);
         paint.setColor(Color.WHITE);
 
+        random = new Random();
 
-        for (int i = 0; i < 5; i++) {
+        this.enemiesArr = enemiesArr;
+
+        for (Integer i: enemiesArr) {
+            picPeople.remove(i);
+        }
+
+        for (int i = 0; i < 2; i++) {
             covids.add(new Covid(getResources(), R.drawable.covid));
         }
-        for (int i = 0; i < 5; i++) {
-            peoples.add(new People(getResources(), R.drawable.unmasked));
+        for (int i = 0; i < 2; i++) {
+            int randomPeople = random.nextInt(picPeople.size());
+            peoples.add(new People(getResources(), picPeople.get(randomPeople)));
+            picPeople.remove(randomPeople);
         }
-
-        random = new Random();
+        for (int i = 0; i < 4; i++) {
+            enemies.add(new People(getResources(), enemiesArr[random.nextInt(3)]));
+        }
     }
 
     @Override
@@ -135,9 +151,6 @@ public class GameView extends SurfaceView implements Runnable {
                 }
                 return;
             }
-//            if (Rect.intersects(covids.get(i).getCollisionShape(), player.getCollisionShape())) {
-//
-//            }
         }
 
         for (People people : peoples) {
@@ -157,22 +170,34 @@ public class GameView extends SurfaceView implements Runnable {
                 people.Covered(false);
 
             }
+        }
+        for (People people : enemies) {
+            people.x -= people.speed;
+
+            if (people.x + people.width < 0) {
+
+                int bound = (int) (30 * screenRatioX);
+                people.speed = random.nextInt(bound);
+
+                if (people.speed < 10 * screenRatioX) {
+                    people.speed = (int) (10 * screenRatioX);
+                }
+                people.x = screenX;
+                people.y = random.nextInt(screenY - people.height);
+                people.wasCovered = false;
+                people.Covered(false);
+
+            }
             updateLives = people.isInfected(player, lives, score);
             if (lives != updateLives) {
-                peoples.remove(people);
-                peoples.add(new People(getResources(), R.drawable.masked));
+                enemies.remove(people);
+                enemies.add(new People(getResources(), people.getPicture()));
                 lives = updateLives;
                 if (lives == 0) {
-                    isGameOver = true;
 
+                    isGameOver = true;
                 }
                 return;
-
-
-//            if (Rect.intersects(people.getCollisionShape(), player.getCollisionShape()) && !people.wasCovered) {
-//                isGameOver = true;
-//                return;
-//            }
             }
         }
     }
@@ -189,6 +214,9 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(covid.getObject(), covid.x, covid.y, paint);
             }
             for (People people : peoples) {
+                canvas.drawBitmap(people.getObject(), people.x, people.y, paint);
+            }
+            for (People people : enemies) {
                 canvas.drawBitmap(people.getObject(), people.x, people.y, paint);
             }
             Bitmap redLive = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
@@ -289,11 +317,18 @@ public class GameView extends SurfaceView implements Runnable {
         int y = (int) event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                for (People people : peoples) {
+                for (People people : enemies) {
                     if (people.getCollisionShape().contains(x, y)) {
                         if(!people.wasCovered){
                             people.Covered(true);
                             score++;
+                        }
+                    }
+                }
+                for (People people : peoples) {
+                    if (people.getCollisionShape().contains(x, y)) {
+                        if(!people.wasCovered){
+                            if(score>0) score--;
                         }
                     }
                 }
