@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class ObjectView {
     public int speed=20;
+    public boolean firstTimeInit = true;
     int x=0, y, width, height;
     Bitmap object;
     int picture;
@@ -36,6 +37,8 @@ public class ObjectView {
         object = Bitmap.createScaledBitmap(object, width, height, false);
 
         y =- height;
+
+
     }
 //
 
@@ -88,10 +91,17 @@ public class ObjectView {
         object = Bitmap.createScaledBitmap(object, width, height, false);
     }
 
-    public int isInfected(Player player, int lives, int score){
-        if(Rect.intersects(this.getCollisionShape(), player.getCollisionShape())) {
-            return 1;
-        }
-        return 0;
-    }
+//    public int isInfected(Player player, int lives, int score){
+//        if(Rect.intersects(this.getCollisionShape(), player.getCollisionShape())) {
+//            return 1;
+//        }
+//        return 0;
+//    }
+
+//    public int isInfected(People people, int lives, int score){
+//        if(Rect.intersects(this.getCollisionShape(), player.getCollisionShape())) {
+//            return 1;
+//        }
+//        return 0;
+//    }
 }

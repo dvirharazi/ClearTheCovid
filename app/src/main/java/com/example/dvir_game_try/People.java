@@ -26,7 +26,7 @@ public class People extends ObjectView implements Serializable {
     public void Covered(boolean isCovered){
         if(isCovered){
             this.wasCovered = true;
-            setPicture(R.drawable.masked);
+            setPicture(R.drawable.m_people_1);
         }
         else setPicture(this.picture);
     }
@@ -34,14 +34,23 @@ public class People extends ObjectView implements Serializable {
         return new Rect(x, y, (int) (x + width), (int) (y+ height));
     }
 
-    @Override
-    public int isInfected(Player player, int lives, int score) {
-        int isInfected = super.isInfected(player, lives, score);
-        if(isInfected == 1 && !this.wasCovered){
-            lives--;
-        }
-        return lives;
-    }
+//    @Override
+//    public int isInfected(Player player, int lives, int score) {
+//        int isInfected = super.isInfected(player, lives, score);
+//        if(isInfected == 1 && !this.wasCovered){
+//            lives--;
+//        }
+//        return lives;
+//    }
+
+//    public int isInfected(People people, int lives, int score) {
+////        int isInfected = super.isInfected(people, lives, score);
+//        if((people.getX() + people.getWidth()) < 0 && !this.wasCovered){
+//            lives--;
+//        }
+//        return lives;
+//    }
+
 
     public int getPicture() {
         return picture;

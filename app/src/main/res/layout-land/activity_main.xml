@@ -20,6 +20,31 @@
         android:layout_above="@+id/play"
         android:id="@+id/score" />
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/covid"
+        android:id="@+id/covid1"/>
+
+    <ImageView
+        android:id="@+id/covid2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/covid1"
+        android:scaleType="fitXY"
+        android:src="@drawable/covid" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/covid"
+        android:id="@+id/covid3"
+        android:layout_toEndOf="@+id/covid2"
+        android:layout_below="@+id/covid1"/>
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

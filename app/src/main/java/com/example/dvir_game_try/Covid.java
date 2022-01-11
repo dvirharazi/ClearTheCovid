@@ -20,12 +20,12 @@ public class Covid extends ObjectView {
     Rect getCollisionShape(){
         return new Rect(x, y, (int) (x + width), (int) (y+ height));
     }
-    @Override
-    public int isInfected(Player player, int lives, int score) {
-        int isInfected = super.isInfected(player, lives, score);
-        if (isInfected == 1) {
-            lives--;
-        }
-        return lives;
-    }
+//    @Override
+//    public int isInfected(Player player, int lives, int score) {
+//        int isInfected = super.isInfected(player, lives, score);
+//        if (isInfected == 1) {
+//            lives--;
+//        }
+//        return lives;
+//    }
 }

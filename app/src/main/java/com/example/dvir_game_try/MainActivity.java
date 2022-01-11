@@ -10,7 +10,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
         Button playBtn = findViewById(R.id.play);
         Button recordBtn = findViewById(R.id.move_to_record);
+
+        ImageView covid1 = findViewById(R.id.covid1);
+        ImageView covid2 = findViewById(R.id.covid2);
+        ImageView covid3 = findViewById(R.id.covid3);
+
+        Animation moveAnim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.covid_move_anim);
+        covid1.startAnimation(moveAnim);
+        covid2.startAnimation(moveAnim);
+        covid3.startAnimation(moveAnim);
 
         recordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TextView highScoreText = findViewById(R.id.score);
-        SharedPreferences pref = getSharedPreferences("game", MODE_PRIVATE);
-        highScoreText.setText("HighScore: " + pref.getInt("highscore", 0));
+//        TextView highScoreText = findViewById(R.id.score);
+        SharedPreferences pref = getSharedPreferences("game_10_records", MODE_PRIVATE);
+//        highScoreText.setText("HighScore: " + pref.getInt("highscore", 0));
 
     }
 }
