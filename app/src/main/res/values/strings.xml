@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">dvir_game_try</string>
+    <string name="app_name">Clear the COVID</string>
+    <string name="play">Play</string>
+    <string name="records">Records</string>
+    <string name="your_enemies">Your Enemies:</string>
+    <string name="next">Next</string>
+    <string name="your_score_is">Your score is:</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="save">Save</string>
 </resources>

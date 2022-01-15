@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">חסל את המגפה</string>
+    <string name="play">שחק</string>
+    <string name="records">טבלת שיאים</string>
+    <string name="your_enemies">האויבים:</string>
+    <string name="next">המשך</string>
+    <string name="your_score_is">הניקוד שלך:</string>
+    <string name="enter_name">הכנס את שמך</string>
+    <string name="save">שמור</string>
+</resources>

@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="your enemies:"
+        android:text="@string/your_enemies"
         android:id="@+id/enemy_text"
         android:layout_margin="100dp"
         android:layout_centerVertical="true"/>
@@ -31,6 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/enemy_text"
         android:layout_centerInParent="true"
-        android:text="next"
+        android:text="@string/next"
         android:id="@+id/next_btn"/>
 </RelativeLayout>

@@ -4,10 +4,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,6 +23,7 @@ public class RecordActivity extends AppCompatActivity {
     SharedPreferences sp;
     List<Record> topRecords = new ArrayList<>();
     Record record;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -91,6 +95,15 @@ public class RecordActivity extends AppCompatActivity {
         ListView recordsView = findViewById(R.id.record_list);
         RecordAdapter recordAdapter = new RecordAdapter(topRecords, this);
         recordsView.setAdapter(recordAdapter);
+        ImageView BackBtn=findViewById(R.id.Back_Btn);
+
+        BackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(RecordActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
