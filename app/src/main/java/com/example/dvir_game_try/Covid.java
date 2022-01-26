@@ -1,19 +1,15 @@
 package com.example.dvir_game_try;
 
-import static com.example.dvir_game_try.GameView.screenRatioX;
-import static com.example.dvir_game_try.GameView.screenRatioY;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 public class Covid extends ObjectView {
 
     Bitmap covid;
 
-    Covid(Resources resources, int picture){
-        super(resources, picture);
+    Covid(Resources resources, Integer[] picture , int minSpeed, int maxSpeed){
+        super(resources, picture, minSpeed , maxSpeed);
     }
 
 

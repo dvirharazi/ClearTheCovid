@@ -1,8 +1,11 @@
 package com.example.dvir_game_try;
 
+import static com.example.dvir_game_try.GameActivity.screenRatioX;
+import static com.example.dvir_game_try.GameActivity.screenRatioY;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,65 +16,49 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.gif.GifDrawable;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
+
+@SuppressLint("ViewConstructor")
 public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying, isGameOver = false;
-    private int screenX, screenY, score = 0;
-    private Paint paint;
-    private SharedPreferences sp;
-    private TreeMap<Integer, String> topTenRecord = new TreeMap<>();
-    private ArrayList<Covid> covids = new ArrayList<>();
-    private ArrayList<People> peoples = new ArrayList<>();
-    private ArrayList<People> enemies = new ArrayList<>();
-    private int[] enemiesArr;
-
-    List<Integer> picPeople = new ArrayList<>(Arrays.asList(
-            R.drawable.people_1, R.drawable.people_2, R.drawable.people_3, R.drawable.people_4,
-            R.drawable.people_5, R.drawable.people_6, R.drawable.people_7, R.drawable.people_8, R.drawable.people_9,
-            R.drawable.people_10, R.drawable.people_11, R.drawable.people_12, R.drawable.people_13,
-            R.drawable.people_14, R.drawable.people_15, R.drawable.people_16, R.drawable.people_18, R.drawable.people_19,
-            R.drawable.people_20, R.drawable.people_21));
+    private final int screenX;
+    private final int screenY;
+    private int score = 0;
+    private final Paint paint;
+    private final SharedPreferences sp;
+    private final Stage stage;
+    Timer timer = new Timer();
     private int lives = 3;
-    private Random random;
-    private GameActivity activity;
-    public static float screenRatioX, screenRatioY;
-    private Background background1, background2;
+    Bitmap pauseBtn;
+    private final Random random;
+    private final GameActivity activity;
+    private final Background background1;
+    private final Background background2;
 
-    public GameView(GameActivity activity, int screenX, int screenY, int[] enemiesArr) {
+    public GameView(GameActivity activity, int screenX, int screenY, Stage stage) {
         super(activity);
 
         this.activity = activity;
         sp = activity.getSharedPreferences("game_10_records", Context.MODE_PRIVATE);
         this.screenX = screenX;
         this.screenY = screenY;
-
-        screenRatioX = 1920f / screenX;
-        screenRatioY = 1080f / screenY;
 
         background1 = new Background(screenX, screenY, getResources());
         background2 = new Background(screenX, screenY, getResources());
@@ -82,34 +69,80 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setTextSize(128);
         paint.setColor(Color.WHITE);
 
+        this.stage = stage;
+
         random = new Random();
 
-        this.enemiesArr = enemiesArr;
-
-        for (Integer i : enemiesArr) {
-            picPeople.remove(i);
-        }
-
-//        for (int i = 0; i < 2; i++) {
-//            covids.add(new Covid(getResources(), R.drawable.covid));
-//        }
-        for (int i = 0; i < 2; i++) {
-            int randomPeople = random.nextInt(picPeople.size());
-            peoples.add(new People(getResources(), picPeople.get(randomPeople)));
-            picPeople.remove(randomPeople);
-        }
-        for (int i = 0; i < 4; i++) {
-            enemies.add(new People(getResources(), enemiesArr[random.nextInt(3)]));
-        }
     }
 
     @Override
     public void run() {
+
+        timer = new Timer();
+        TimerTask task = new TimerTask() {
+            int i = stage.getTime();
+
+            public void run() {
+                if (stage.getLevel() == 0) {
+                    goToNextStage();
+                }
+                if (i >= 0) {
+                    i--;
+                } else {
+                    goToNextStage();
+                    i = stage.getTime();
+                }
+            }
+        };
+        timer.schedule(task, 0, 1000);
+
+
         while (isPlaying) {
             update();
             draw();
             sleep();
         }
+        timer.cancel();
+    }
+
+    private void goToNextStage() {
+
+        if (stage.getLevel() % 3 == 0) {
+            pause();
+            if (stage.getLevel() != 0) {
+                stage.setNumberOfEnemies(stage.getNumberOfEnemies() + 1);
+                stage.setEnemiesPic(stage.updateEnemiesPicArray());
+                stage.updateEnemiesPicArray();
+                stage.updateEnemiesArray();
+
+                stage.setNumberOfPeople(stage.getNumberOfPeople() + 1);
+                stage.setPeoplePic(stage.updatePeoplesPicArray());
+                stage.updatePeoplesPicArray();
+                stage.updatePeoplesArray();
+            }
+            ArrayList<Integer> enemies = new ArrayList<>();
+            for (Integer[] i : stage.getEnemiesPic()) {
+                enemies.add(i[0]);
+            }
+            boolean fragmentIsOpen = false;
+            GuideFragment1 fragment = GuideFragment1.newInstance(enemies, fragmentIsOpen);
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(android.R.id.content, fragment, "lal");
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+            do {
+                assert fragment.getArguments() != null;
+            } while ((boolean) fragment.getArguments().get("fragmentIsOpen"));
+
+            resume();
+        }
+        stage.setLevel(stage.getLevel() + 1);
+        stage.setTime(stage.getTime() + 1);
+        stage.setMinSpeed(stage.getMinSpeed() + 3);
+        stage.setMaxSpeed(stage.getMaxSpeed() + 3);
+        System.out.println("level is : " + stage.getLevel());
     }
 
     private void update() {
@@ -123,13 +156,6 @@ public class GameView extends SurfaceView implements Runnable {
         if (background2.x + background2.background.getWidth() < 0) { //all the image outside the screen
             background2.x = screenX;
         }
-//        if (player.isGoingUp) {
-//            player.y -= 200 * screenRatioY;
-//            player.isGoingUp = false;
-//        }
-//        if (player.y < 0) {
-//            player.y = 0;
-//        }
 
 //        for (int i = 0; i < covids.size(); i++) {
 //            covids.get(i).x -= covids.get(i).speed;
@@ -159,51 +185,29 @@ public class GameView extends SurfaceView implements Runnable {
 //            }
 //        }
 
-        for (People people : peoples) {
-            people.x -= people.speed;
-
-            if (people.x + people.width < 0) {
-
-                int bound = (int) (30 * screenRatioX);
-                people.speed = random.nextInt(bound);
-
-                if (people.speed < 10 * screenRatioX) {
-                    people.speed = (int) (10 * screenRatioX);
-                }
-                people.x = screenX;
-                people.y = random.nextInt(screenY - people.height);
-                people.wasCovered = false;
-                people.Covered(false);
-
-            }
+        for (People people : stage.getPeoples()) {
+            people.updateObject(screenX, screenY, stage.getMinSpeed(), stage.getMaxSpeed());
         }
-        for (People people : enemies) {
-            people.x -= people.speed;
+        for (Enemy enemy : stage.getEnemies()) {
+            enemy.x -= enemy.speed;
 
-            if (people.x + people.width < 0) {
-                if (!people.firstTimeInit) {
-                    if (!people.wasCovered) {
+            if (enemy.x + enemy.width < 0) {
+                if (!enemy.firstTimeInit) {
+                    if (!enemy.wasCovered) {
                         lives--;
                         if (lives == 0) {
                             isGameOver = true;
+                            timer.cancel();
                             return;
                         }
                     }
                 }
-
-
-                int bound = (int) (30 * screenRatioX);
-                people.speed = random.nextInt(bound);
-
-                if (people.speed < 10 * screenRatioX) {
-                    people.speed = (int) (10 * screenRatioX);
-                }
-                people.x = screenX;
-                people.y = random.nextInt(screenY - people.height);
-                people.wasCovered = false;
-                people.firstTimeInit = false;
-                people.Covered(false);
-
+                enemy.speed = random.nextInt(stage.getMaxSpeed() + 1 - stage.getMinSpeed()) + stage.getMinSpeed();
+                enemy.x = screenX;
+                enemy.y = random.nextInt(screenY - enemy.height);
+                enemy.wasCovered = false;
+                enemy.firstTimeInit = false;
+                enemy.Covered(false);
             }
         }
     }
@@ -213,20 +217,44 @@ public class GameView extends SurfaceView implements Runnable {
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
 
+//            ImageButton pauseBtn = new ImageButton(activity);
+//            ImageButton resumeBtn = new ImageButton(activity);
+//            pauseBtn.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    pause();
+//                }
+//            });
+//
+//            resumeBtn.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    resume();
+//                }
+//            });
+
+
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
+
+
+            pauseBtn = BitmapFactory.decodeResource(getResources(), R.drawable.menu);
+            pauseBtn = Bitmap.createScaledBitmap(pauseBtn, 100, 100, false);
+            canvas.drawBitmap(pauseBtn, 1600 * screenRatioX, 100 * screenRatioY, paint);
+
 
 //            for (Covid covid : covids) {
 //                canvas.drawBitmap(covid.getObject(), covid.x, covid.y, paint);
 //            }
-            for (People people : peoples) {
+            for (People people : stage.getPeoples()) {
                 canvas.drawBitmap(people.getObject(), people.x, people.y, paint);
             }
-            for (People people : enemies) {
-                canvas.drawBitmap(people.getObject(), people.x, people.y, paint);
+            for (Enemy enemy : stage.getEnemies()) {
+                canvas.drawBitmap(enemy.getObject(), enemy.x, enemy.y, paint);
             }
             Bitmap redLive = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
             redLive = Bitmap.createScaledBitmap(redLive, 100, 100, false);
+
 
             for (int i = 0; i < lives; i++) {
                 canvas.drawBitmap(redLive, (100 * (i + 1)) * screenRatioX, 100 * screenRatioY, paint);
@@ -236,7 +264,7 @@ public class GameView extends SurfaceView implements Runnable {
                 isPlaying = false;
                 getHolder().unlockCanvasAndPost(canvas);
                 if (score > 0) saveIfHighScore();
-                else{
+                else {
                     waitBeforeExiting();
                 }
                 return;
@@ -264,9 +292,8 @@ public class GameView extends SurfaceView implements Runnable {
 //            }
         System.out.println(sp.getAll().size());
         if (sp.getAll().size() < 10) {
-                openDialog();
-        }
-        else {
+            openDialog();
+        } else {
             int minValue = sp.getInt("1", 0);
             for (Map.Entry<String, ?> entry : keys.entrySet()) {
                 if (minValue > Integer.valueOf((int) entry.getValue())) {
@@ -280,7 +307,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void openDialog() {
-        ((Activity)getContext()).runOnUiThread(new Runnable() {
+        ((Activity) getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -297,12 +324,29 @@ public class GameView extends SurfaceView implements Runnable {
                     public void onClick(View v) {
                         System.out.println("lal");
                         Intent intent = new Intent(activity, RecordActivity.class);
-                        intent.putExtra("name",nameEt.getText().toString());
+                        intent.putExtra("name", nameEt.getText().toString());
                         intent.putExtra("score", String.valueOf(score));
                         System.out.println("l");
                         activity.startActivity(intent);
                     }
                 });
+            }
+        });
+    }
+
+    private void openMenuDialog() {
+        ((Activity) getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                View dialogView = activity.getLayoutInflater().inflate(R.layout.menu_dialog, null);
+                builder.setView(dialogView).setNegativeButton("exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        resume();
+                    }
+                }).setCancelable(false).show();
+
             }
         });
     }
@@ -338,19 +382,25 @@ public class GameView extends SurfaceView implements Runnable {
         int y = (int) event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                for (People people : enemies) {
-                    if (people.getCollisionShape().contains(x, y)) {
-                        if (!people.wasCovered) {
-                            people.Covered(true);
+                if (new RectF(1600 * screenRatioX, 100 * screenRatioY,
+                        (1600 + pauseBtn.getWidth()) * screenRatioX,
+                        (100 + pauseBtn.getHeight()) * screenRatioY).contains(x, y)) {
+                    if (isPlaying) {
+                        pause();
+                        openMenuDialog();
+                    }
+                }
+                for (Enemy enemy : stage.getEnemies()) {
+                    if (enemy.getCollisionShape().contains(x, y)) {
+                        if (!enemy.wasCovered && isPlaying) {
+                            enemy.Covered(true);
                             score++;
                         }
                     }
                 }
-                for (People people : peoples) {
-                    if (people.getCollisionShape().contains(x, y)) {
-                        if (!people.wasCovered) {
-                            if (score > 0) score--;
-                        }
+                for (People people : stage.getPeoples()) {
+                    if (people.getCollisionShape().contains(x, y) && score > 0) {
+                        score--;
                     }
                 }
         }

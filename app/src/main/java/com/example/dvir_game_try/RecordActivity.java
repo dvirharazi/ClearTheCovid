@@ -4,10 +4,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +30,15 @@ public class RecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         sp = getSharedPreferences("game_10_records", MODE_PRIVATE);
+
+        Button backToMenu = findViewById(R.id.back_to_menu);
+        backToMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecordActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         String name = getIntent().getStringExtra("name");
         String score = getIntent().getStringExtra("score");
@@ -70,6 +82,9 @@ public class RecordActivity extends AppCompatActivity {
             }
         } else {
             Map<String, ?> keys = sp.getAll();
+            for (Map.Entry<String, ?> entry : keys.entrySet()) {
+                System.out.println(entry.getValue());
+            }
             for (Map.Entry<String, ?> entry : keys.entrySet()) {
                 if (keys.size() > 0) {
                     String infoRecord = (String) entry.getValue();

@@ -49,19 +49,21 @@ public class MainActivity extends AppCompatActivity {
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-//                startActivity(intent);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.add(R.id.root_container, new GuideFragment1(), "guide_fragment");
-                transaction.addToBackStack(null);
-                transaction.commit();
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                startActivity(intent);
+//                Stage stage = new Stage(getResources(),1, 2, 3, 3);
+//                GuideFragment1 fragment = GuideFragment1.newInstance(stage);
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                transaction.add(R.id.root_container, fragment, GUIDE_FRAGMENT_TAG);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
             }
         });
 
-//        TextView highScoreText = findViewById(R.id.score);
-        SharedPreferences pref = getSharedPreferences("game_10_records", MODE_PRIVATE);
-//        highScoreText.setText("HighScore: " + pref.getInt("highscore", 0));
+
+
+
 
     }
 }

@@ -1,38 +1,32 @@
 package com.example.dvir_game_try;
 
-import static com.example.dvir_game_try.GameView.screenRatioX;
-import static com.example.dvir_game_try.GameView.screenRatioY;
-
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 
 import java.io.Serializable;
 
 
 public class People extends ObjectView implements Serializable {
-    public boolean wasCovered = false;
-    Bitmap unmaskedPeople, maskedPeople;
-    int picture;
 
-    People(Resources resources, int picture){
-        super(resources, picture);
+    Integer[] picture;
+
+
+
+    People(Resources resources, Integer[] picture, int minSpeed, int maxSpeed){
+        super(resources, picture, minSpeed, maxSpeed);
         this.picture = picture;
         this.resources = resources;
-
     }
 
-    public void Covered(boolean isCovered){
-        if(isCovered){
-            this.wasCovered = true;
-            setPicture(R.drawable.m_people_1);
-        }
-        else setPicture(this.picture);
-    }
-    Rect getCollisionShape(){
-        return new Rect(x, y, (int) (x + width), (int) (y+ height));
-    }
+//    public void Covered(boolean isCovered){
+//        if(isCovered){
+//            this.wasCovered = true;
+//            setPicture(R.drawable.m_people_1);
+//        }
+//        else setPicture(this.picture);
+//    }
+//    Rect getCollisionShape(){
+//        return new Rect(x, y, (int) (x + width), (int) (y+ height));
+//    }
 
 //    @Override
 //    public int isInfected(Player player, int lives, int score) {
@@ -51,8 +45,16 @@ public class People extends ObjectView implements Serializable {
 //        return lives;
 //    }
 
+    public void updateObject(int screenX, int screenY, int minSpeed, int maxSpeed){
+        this.x -= this.speed;
+        if(this.x + this.width < 0) {
+            this.speed = random.nextInt(maxSpeed + 1 - minSpeed) + minSpeed;
+            this.x = screenX;
+            this.y = random.nextInt(screenY - this.height);
+        }
+    }
 
-    public int getPicture() {
+    public Integer[] getPicture() {
         return picture;
     }
 }
