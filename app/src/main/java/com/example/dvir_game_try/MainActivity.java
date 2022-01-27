@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     final String GUIDE_FRAGMENT_TAG = "guide_fragment";
 
@@ -60,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
 //                transaction.commit();
             }
         });
+
+
+        MusicPlayer.getInstance().initialize(this);
+        MusicPlayer.getInstance().play(true);
+
+
 
 
 

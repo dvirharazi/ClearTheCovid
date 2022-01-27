@@ -10,16 +10,22 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Dvir_game_try">
         <activity
+            android:name=".BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".RecordActivity"
             android:exported="false"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".GameActivity"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -69,6 +69,8 @@ public class GameActivity extends AppCompatActivity {
 
         setContentView(gameView);
 
+        MusicPlayer.getInstance().play(true);
+
     }
 
     @Override

@@ -31,6 +31,8 @@ public class RecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record);
         sp = getSharedPreferences("game_10_records", MODE_PRIVATE);
 
+        MusicPlayer.getInstance().play(true);
+
         Button backToMenu = findViewById(R.id.back_to_menu);
         backToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
