@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class MainActivity extends BaseActivity {
 
     final String GUIDE_FRAGMENT_TAG = "guide_fragment";
-
+    boolean stop=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,7 @@ public class MainActivity extends BaseActivity {
         covid1.startAnimation(moveAnim);
         covid2.startAnimation(moveAnim);
         covid3.startAnimation(moveAnim);
+        ImageView music_btn_home=findViewById(R.id.music_btn_home);
 
         recordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +61,22 @@ public class MainActivity extends BaseActivity {
 //                transaction.commit();
             }
         });
+    music_btn_home.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(!stop) {
+                MusicPlayer.getInstance().pause(true);
+                stop = true;
+            }
 
+            else{
+                MusicPlayer.getInstance().play(true);
+                stop = false;
+            }
+
+
+        }
+    });
 
         MusicPlayer.getInstance().initialize(this);
         MusicPlayer.getInstance().play(true);

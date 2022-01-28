@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ public class RecordActivity extends AppCompatActivity {
         sp = getSharedPreferences("game_10_records", MODE_PRIVATE);
 
         MusicPlayer.getInstance().play(true);
-
+        ImageView BackBtn = findViewById(R.id.Back_Btn);
         Button backToMenu = findViewById(R.id.back_to_menu);
         backToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,5 +110,12 @@ public class RecordActivity extends AppCompatActivity {
         RecordAdapter recordAdapter = new RecordAdapter(topRecords, this);
         recordsView.setAdapter(recordAdapter);
 
+        BackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecordActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

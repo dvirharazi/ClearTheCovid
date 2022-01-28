@@ -41,6 +41,11 @@
         android:text="menu"
         android:layout_gravity="center"
         android:id="@+id/back_to_menu"/>
-
+    <ImageView
+        android:id="@+id/Back_Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:src="@drawable/goback"/>
 
 </LinearLayout>

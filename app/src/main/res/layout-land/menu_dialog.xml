@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Setting"
+        android:text="@string/setting"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:id="@+id/set_title"
@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="music: "
+        android:text="@string/music"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:id="@+id/set_music"
@@ -34,7 +34,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="guide: "
+        android:text="@string/guide"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:id="@+id/play_guide"
@@ -45,7 +45,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="back to menu: "
+        android:text="@string/back_to_menu"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:id="@+id/back_to_menu"
