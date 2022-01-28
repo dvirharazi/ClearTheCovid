@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import java.util.ArrayList;
 
@@ -70,7 +72,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(gameView);
 
         MusicPlayer.getInstance().play(true);
-
     }
 
     @Override
@@ -84,4 +85,5 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
         gameView.pause();
     }
+
 }

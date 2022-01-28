@@ -21,7 +21,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
@@ -74,6 +76,12 @@ public class GameView extends SurfaceView implements Runnable {
         random = new Random();
 
     }
+
+
+
+
+
+
 
     @Override
     public void run() {
@@ -243,6 +251,7 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(pauseBtn, 1600 * screenRatioX, 100 * screenRatioY, paint);
 
 
+
 //            for (Covid covid : covids) {
 //                canvas.drawBitmap(covid.getObject(), covid.x, covid.y, paint);
 //            }
@@ -336,10 +345,13 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void openMenuDialog() {
         ((Activity) getContext()).runOnUiThread(new Runnable() {
+
+
             @Override
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 View dialogView = activity.getLayoutInflater().inflate(R.layout.menu_dialog, null);
+
                 builder.setView(dialogView).setNegativeButton("exit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -349,6 +361,18 @@ public class GameView extends SurfaceView implements Runnable {
 
             }
         });
+//        Switch musicSwitch=(Switch)findViewById(R.id.switch_music);
+//        musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if(b){
+//                    MusicPlayer.getInstance().pause(true);
+//                }
+//                else {
+//                    MusicPlayer.getInstance().play(true);
+//                }
+//            }
+//        });
     }
 
     private void sleep() {
