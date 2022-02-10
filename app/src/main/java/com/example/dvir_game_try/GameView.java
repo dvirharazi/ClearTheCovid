@@ -338,7 +338,6 @@ public class GameView extends SurfaceView implements Runnable {
                         if(v.isSelected()){
                             v.setSelected(false);
                             MusicPlayer.getInstance().pause(true);
-
                         }else{
                             v.setSelected(true);
                             MusicPlayer.getInstance().play(true);
