@@ -17,34 +17,6 @@ public class People extends ObjectView implements Serializable {
         this.resources = resources;
     }
 
-//    public void Covered(boolean isCovered){
-//        if(isCovered){
-//            this.wasCovered = true;
-//            setPicture(R.drawable.m_people_1);
-//        }
-//        else setPicture(this.picture);
-//    }
-//    Rect getCollisionShape(){
-//        return new Rect(x, y, (int) (x + width), (int) (y+ height));
-//    }
-
-//    @Override
-//    public int isInfected(Player player, int lives, int score) {
-//        int isInfected = super.isInfected(player, lives, score);
-//        if(isInfected == 1 && !this.wasCovered){
-//            lives--;
-//        }
-//        return lives;
-//    }
-
-//    public int isInfected(People people, int lives, int score) {
-////        int isInfected = super.isInfected(people, lives, score);
-//        if((people.getX() + people.getWidth()) < 0 && !this.wasCovered){
-//            lives--;
-//        }
-//        return lives;
-//    }
-
     public void updateObject(int screenX, int screenY, int minSpeed, int maxSpeed){
         this.x -= this.speed;
         if(this.x + this.width < 0) {

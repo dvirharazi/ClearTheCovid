@@ -78,18 +78,4 @@ public class ObjectView {
         object = BitmapFactory.decodeResource(resources, picture);
         object = Bitmap.createScaledBitmap(object, width, height, false);
     }
-
-//    public int isInfected(Player player, int lives, int score){
-//        if(Rect.intersects(this.getCollisionShape(), player.getCollisionShape())) {
-//            return 1;
-//        }
-//        return 0;
-//    }
-
-//    public int isInfected(People people, int lives, int score){
-//        if(Rect.intersects(this.getCollisionShape(), player.getCollisionShape())) {
-//            return 1;
-//        }
-//        return 0;
-//    }
 }

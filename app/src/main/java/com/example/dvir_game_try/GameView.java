@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -206,7 +207,6 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void draw() {
-
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
 
@@ -214,7 +214,14 @@ public class GameView extends SurfaceView implements Runnable {
 
             pauseBtn = BitmapFactory.decodeResource(getResources(), R.drawable.menu);
             pauseBtn = Bitmap.createScaledBitmap(pauseBtn, 100, 100, false);
-            canvas.drawBitmap(pauseBtn, 1600 * screenRatioX, 100 * screenRatioY, paint);
+            canvas.drawBitmap(pauseBtn, (screenX-screenX/8) * screenRatioX, 50 * screenRatioY, paint);
+
+            Bitmap redLive = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
+            redLive = Bitmap.createScaledBitmap(redLive, 100, 100, false);
+
+            for (int i = 0; i < lives; i++) {
+                canvas.drawBitmap(redLive, (100 * (i + 1)) * screenRatioX, 50 * screenRatioY, paint);
+            }
 
             if (coronaStage) {
                 canvas.drawBitmap(covid.getObject(), covid.getX(), covid.getY(), paint);
@@ -226,13 +233,7 @@ public class GameView extends SurfaceView implements Runnable {
             for (Enemy enemy : stage.getEnemies()) {
                 canvas.drawBitmap(enemy.getObject(), enemy.x, enemy.y, paint);
             }
-            Bitmap redLive = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
-            redLive = Bitmap.createScaledBitmap(redLive, 100, 100, false);
 
-
-            for (int i = 0; i < lives; i++) {
-                canvas.drawBitmap(redLive, (100 * (i + 1)) * screenRatioX, 100 * screenRatioY, paint);
-            }
             canvas.drawText(score + "", screenX / 2f, 164, paint);
             if (isGameOver) {
                 isPlaying = false;
@@ -270,8 +271,8 @@ public class GameView extends SurfaceView implements Runnable {
         } else {
             int minValue = sp.getInt("1", 0);
             for (Map.Entry<String, ?> entry : keys.entrySet()) {
-                if (minValue > Integer.valueOf((int) entry.getValue())) {
-                    minValue = Integer.valueOf((int) entry.getValue());
+                if (minValue > (int) entry.getValue()) {
+                    minValue = (int) entry.getValue();
                 }
             }
             if (score > minValue) {
@@ -282,6 +283,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void openDialog() {
         ((Activity) getContext()).runOnUiThread(new Runnable() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -327,18 +329,35 @@ public class GameView extends SurfaceView implements Runnable {
                         activity.finish();
                     }
                 }).setCancelable(false).show();
-                Switch aSwitch = dialogView.findViewById(R.id.switch_music);
-                aSwitch.setChecked(!MusicPlayer.getInstance().getIsPaused());
-                aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                ImageButton music_button = dialogView.findViewById(R.id.music_change);
+                music_button.setSelected(!MusicPlayer.getInstance().getIsPaused());
+                music_button.setOnClickListener(new OnClickListener() {
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            MusicPlayer.getInstance().play(true);
-                        } else {
+                    public void onClick(View v) {
+                        if(v.isSelected()){
+                            v.setSelected(false);
                             MusicPlayer.getInstance().pause(true);
+
+                        }else{
+                            v.setSelected(true);
+                            MusicPlayer.getInstance().play(true);
                         }
                     }
                 });
+
+//                @SuppressLint("UseSwitchCompatOrMaterialCode") Switch aSwitch = dialogView.findViewById(R.id.switch_music);
+//                aSwitch.setChecked(!MusicPlayer.getInstance().getIsPaused());
+//                aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                        if (isChecked) {
+//                            MusicPlayer.getInstance().play(true);
+//                        } else {
+//                            MusicPlayer.getInstance().pause(true);
+//                        }
+//                    }
+//                });
             }
         });
     }
@@ -372,38 +391,37 @@ public class GameView extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (new RectF(1600 * screenRatioX, 100 * screenRatioY,
-                        (1600 + pauseBtn.getWidth()) * screenRatioX,
-                        (100 + pauseBtn.getHeight()) * screenRatioY).contains(x, y)) {
-                    if (isPlaying) {
-                        pause();
-                        openMenuDialog();
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (new RectF((screenX-screenX/8) * screenRatioX, 50 * screenRatioY,
+                    (1600 + pauseBtn.getWidth()) * screenRatioX,
+                    (100 + pauseBtn.getHeight()) * screenRatioY).contains(x, y)) {
+                if (isPlaying) {
+                    pause();
+                    openMenuDialog();
+                }
+            }
+            for (Enemy enemy : stage.getEnemies()) {
+                if (enemy.getCollisionShape().contains(x, y)) {
+                    if (!enemy.wasCovered && isPlaying) {
+                        enemy.Covered(true);
+                        score++;
                     }
                 }
-                for (Enemy enemy : stage.getEnemies()) {
-                    if (enemy.getCollisionShape().contains(x, y)) {
-                        if (!enemy.wasCovered && isPlaying) {
-                            enemy.Covered(true);
-                            score++;
-                        }
-                    }
+            }
+            for (People people : stage.getPeoples()) {
+                if (people.getCollisionShape().contains(x, y) && score > 0) {
+                    score--;
                 }
-                for (People people : stage.getPeoples()) {
-                    if (people.getCollisionShape().contains(x, y) && score > 0) {
-                        score--;
-                    }
+            }
+            if (covid.getCollisionShape().contains(x, y)) {
+                if (covid.width > 150) {
+                    covid.decreaseSize(this.covid);
+                } else {
+                    score += 5;
+                    covid = covid.increaseSize(this.covid, covidWidth, covidHeight);
+                    coronaStage = false;
                 }
-                if (covid.getCollisionShape().contains(x, y)) {
-                    if (covid.width > 150) {
-                        covid.decreaseSize(this.covid);
-                    } else {
-                        score += 5;
-                        covid = covid.increaseSize(this.covid, covidWidth, covidHeight);
-                        coronaStage = false;
-                    }
-                }
+            }
         }
         return true;
     }
