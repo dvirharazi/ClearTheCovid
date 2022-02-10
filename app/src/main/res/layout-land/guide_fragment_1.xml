@@ -1,48 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@drawable/bg1"
     android:clickable="true"
     android:elevation="3dp"
-    android:background="@drawable/background_game">
+    android:orientation="vertical">
 
 
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:id="@+id/info_enemies">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Infected:"
-        android:padding="15dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:id="@+id/enemy_text"
-        android:background="@color/white"
-        android:layout_margin="100dp"
-        android:layout_centerVertical="true"/>
+    <RelativeLayout
+        android:id="@+id/info_enemies"
+        android:layout_width="400dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/enemy_text"
-        android:id="@+id/list_of_enemies"
-        android:layout_centerVertical="true"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="@drawable/enemies_layout_random">
-    </LinearLayout>
-</RelativeLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:elevation="10dp"
+            app:cardCornerRadius="20dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                android:src="@drawable/stone_dialog" />
+
+            <RelativeLayout
+                android:id="@+id/info_stage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/rel_enemy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/enemy_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_centerVertical="true"
+                        android:text="Infected "
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="30dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/list_of_enemies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/enemy_text"
+                        android:orientation="horizontal"
+                        android:padding="10dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rel_live"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rel_enemy">
+
+                    <TextView
+                        android:id="@+id/hearts_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_centerVertical="true"
+                        android:text="Lives "
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="30dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/list_of_hearts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_toEndOf="@+id/hearts_txt"
+                        android:orientation="horizontal"
+                        android:padding="10dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rel_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rel_live">
+
+                    <TextView
+                        android:id="@+id/level_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_centerVertical="true"
+                        android:text="Level "
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
+                        android:paddingTop="10dp"/>
+
+                </RelativeLayout>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/next_btn"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/info_enemies"
         android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@drawable/s_btn"
+        android:scaleType="fitXY"
         android:text="next"
-        android:id="@+id/next_btn"/>
+        android:textAlignment="center"
+        android:textColor="@color/black" />
+
 </RelativeLayout>

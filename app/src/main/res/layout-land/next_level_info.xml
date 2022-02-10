@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:clickable="true"
     android:elevation="3dp"
-    android:background="@drawable/background_game">
+    android:background="@drawable/bg1">
 
 
     <RelativeLayout
@@ -34,11 +34,12 @@
     </RelativeLayout>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/info_enemies"
         android:layout_centerInParent="true"
-        android:text="next"
-        android:id="@+id/next_btn"/>
+        android:background="@drawable/btn_selector"
+        android:text="next" />
 </RelativeLayout>

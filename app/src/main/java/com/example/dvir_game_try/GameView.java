@@ -21,7 +21,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
@@ -33,8 +35,6 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-@SuppressLint("ViewConstructor")
 public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying, isGameOver = false;
@@ -44,13 +44,16 @@ public class GameView extends SurfaceView implements Runnable {
     private final Paint paint;
     private final SharedPreferences sp;
     private final Stage stage;
+    Covid covid;
+    static boolean coronaStage = false;
     Timer timer = new Timer();
     private int lives = 3;
     Bitmap pauseBtn;
     private final Random random;
     private final GameActivity activity;
     private final Background background1;
-    private final Background background2;
+    private final float covidWidth;
+    private final float covidHeight;
 
     public GameView(GameActivity activity, int screenX, int screenY, Stage stage) {
         super(activity);
@@ -61,9 +64,6 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenY = screenY;
 
         background1 = new Background(screenX, screenY, getResources());
-        background2 = new Background(screenX, screenY, getResources());
-
-        background2.x = screenX;
 
         paint = new Paint();
         paint.setTextSize(128);
@@ -72,6 +72,12 @@ public class GameView extends SurfaceView implements Runnable {
         this.stage = stage;
 
         random = new Random();
+
+        covid = new Covid(getResources(), new Integer[]{R.drawable.covid}, 10, 20);
+
+        covidWidth = covid.getWidth();
+        covidHeight = covid.getHeight();
+
 
     }
 
@@ -83,7 +89,8 @@ public class GameView extends SurfaceView implements Runnable {
             int i = stage.getTime();
 
             public void run() {
-                if (stage.getLevel() == 0) {
+                if (stage.getLevel() == 1) {
+                    firstStageGuide();
                     goToNextStage();
                 }
                 if (i >= 0) {
@@ -106,10 +113,15 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void goToNextStage() {
+        if ((stage.getLevel() - 1) % 3 == 0) {
+            if ((stage.getLevel() - 1) != 0) {
+                coronaStage = true;
+            }
+        }
 
-        if (stage.getLevel() % 3 == 0) {
+        if ((stage.getLevel() - 1) % 5 == 0) {
             pause();
-            if (stage.getLevel() != 0) {
+            if ((stage.getLevel() - 1) != 0) {
                 stage.setNumberOfEnemies(stage.getNumberOfEnemies() + 1);
                 stage.setEnemiesPic(stage.updateEnemiesPicArray());
                 stage.updateEnemiesPicArray();
@@ -119,13 +131,15 @@ public class GameView extends SurfaceView implements Runnable {
                 stage.setPeoplePic(stage.updatePeoplesPicArray());
                 stage.updatePeoplesPicArray();
                 stage.updatePeoplesArray();
+
+                stage.setMaxSpeed(20);
+                stage.setMinSpeed(10);
             }
             ArrayList<Integer> enemies = new ArrayList<>();
             for (Integer[] i : stage.getEnemiesPic()) {
                 enemies.add(i[0]);
             }
-            boolean fragmentIsOpen = false;
-            GuideFragment1 fragment = GuideFragment1.newInstance(enemies, fragmentIsOpen);
+            GuideFragment1 fragment = GuideFragment1.newInstance(enemies, lives, stage.getLevel());
             FragmentManager fragmentManager = activity.getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(android.R.id.content, fragment, "lal");
@@ -137,53 +151,32 @@ public class GameView extends SurfaceView implements Runnable {
             } while ((boolean) fragment.getArguments().get("fragmentIsOpen"));
 
             resume();
+        } else {
+            stage.setTime(stage.getTime() + 1); //change to 5
+            stage.setMinSpeed(stage.getMinSpeed() + 2);
+            stage.setMaxSpeed(stage.getMaxSpeed() + 2);
+            System.out.println("level is : " + stage.getLevel());
         }
         stage.setLevel(stage.getLevel() + 1);
-        stage.setTime(stage.getTime() + 1);
-        stage.setMinSpeed(stage.getMinSpeed() + 3);
-        stage.setMaxSpeed(stage.getMaxSpeed() + 3);
-        System.out.println("level is : " + stage.getLevel());
+
+    }
+
+    private void firstStageGuide() {
     }
 
     private void update() {
 
-        background1.x -= 10;
-        background2.x -= 10;
-
-        if (background1.x + background1.background.getWidth() < 0) { //all the image outside the screen
-            background1.x = screenX;
+        if (coronaStage) {
+            covid.x -= covid.speed;
+            if (covid.x + covid.width < 0) {
+                if (!covid.firstTimeInit) {
+                    isGameOver = true;
+                }
+                covid.x = screenX;
+                covid.y = random.nextInt(screenY - covid.height);
+                covid.firstTimeInit = false;
+            }
         }
-        if (background2.x + background2.background.getWidth() < 0) { //all the image outside the screen
-            background2.x = screenX;
-        }
-
-//        for (int i = 0; i < covids.size(); i++) {
-//            covids.get(i).x -= covids.get(i).speed;
-//
-//            if (covids.get(i).x + covids.get(i).width < 0) {
-//
-//                int bound = (int) (30 * screenRatioX);
-//                covids.get(i).speed = random.nextInt(bound);
-//
-//                if (covids.get(i).speed < 10 * screenRatioX) {
-//                    covids.get(i).speed = (int) (10 * screenRatioX);
-//                }
-//                covids.get(i).x = screenX;
-//                covids.get(i).y = random.nextInt(screenY - covids.get(i).height);
-//            }
-//
-//            updateLives = covids.get(i).isInfected(player, lives, score);
-//            if (lives != updateLives) {
-//                covids.remove(covids.get(i));
-//                covids.add(new Covid(getResources(), R.drawable.covid));
-//                lives = updateLives;
-//                if (lives == 0) {
-//                    isGameOver = true;
-//
-//                }
-//                return;
-//            }
-//        }
 
         for (People people : stage.getPeoples()) {
             people.updateObject(screenX, screenY, stage.getMinSpeed(), stage.getMaxSpeed());
@@ -217,35 +210,16 @@ public class GameView extends SurfaceView implements Runnable {
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
 
-//            ImageButton pauseBtn = new ImageButton(activity);
-//            ImageButton resumeBtn = new ImageButton(activity);
-//            pauseBtn.setOnClickListener(new OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    pause();
-//                }
-//            });
-//
-//            resumeBtn.setOnClickListener(new OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    resume();
-//                }
-//            });
-
-
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
-            canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
-
 
             pauseBtn = BitmapFactory.decodeResource(getResources(), R.drawable.menu);
             pauseBtn = Bitmap.createScaledBitmap(pauseBtn, 100, 100, false);
             canvas.drawBitmap(pauseBtn, 1600 * screenRatioX, 100 * screenRatioY, paint);
 
+            if (coronaStage) {
+                canvas.drawBitmap(covid.getObject(), covid.getX(), covid.getY(), paint);
+            }
 
-//            for (Covid covid : covids) {
-//                canvas.drawBitmap(covid.getObject(), covid.x, covid.y, paint);
-//            }
             for (People people : stage.getPeoples()) {
                 canvas.drawBitmap(people.getObject(), people.x, people.y, paint);
             }
@@ -345,8 +319,26 @@ public class GameView extends SurfaceView implements Runnable {
                     public void onClick(DialogInterface dialog, int which) {
                         resume();
                     }
+                }).setPositiveButton("menu", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
+                    }
                 }).setCancelable(false).show();
-
+                Switch aSwitch = dialogView.findViewById(R.id.switch_music);
+                aSwitch.setChecked(!MusicPlayer.getInstance().getIsPaused());
+                aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            MusicPlayer.getInstance().play(true);
+                        } else {
+                            MusicPlayer.getInstance().pause(true);
+                        }
+                    }
+                });
             }
         });
     }
@@ -401,6 +393,15 @@ public class GameView extends SurfaceView implements Runnable {
                 for (People people : stage.getPeoples()) {
                     if (people.getCollisionShape().contains(x, y) && score > 0) {
                         score--;
+                    }
+                }
+                if (covid.getCollisionShape().contains(x, y)) {
+                    if (covid.width > 150) {
+                        covid.decreaseSize(this.covid);
+                    } else {
+                        score += 5;
+                        covid = covid.increaseSize(this.covid, covidWidth, covidHeight);
+                        coronaStage = false;
                     }
                 }
         }

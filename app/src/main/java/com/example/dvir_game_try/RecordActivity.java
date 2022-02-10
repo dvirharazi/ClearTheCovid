@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -41,6 +44,24 @@ public class RecordActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        View.OnTouchListener shakeButtonListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final Animation animShake = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.btn_animation);
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        v.startAnimation(animShake);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        v.clearAnimation();
+                        break;
+                }
+                return false;
+            }
+        };
+
+        backToMenu.setOnTouchListener(shakeButtonListener);
 
         String name = getIntent().getStringExtra("name");
         String score = getIntent().getStringExtra("score");

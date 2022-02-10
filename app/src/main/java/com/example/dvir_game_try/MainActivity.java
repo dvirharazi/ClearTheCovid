@@ -5,21 +5,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends BaseActivity {
 
-    final String GUIDE_FRAGMENT_TAG = "guide_fragment";
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,30 +48,52 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(intent);
-//                Stage stage = new Stage(getResources(),1, 2, 3, 3);
-//                GuideFragment1 fragment = GuideFragment1.newInstance(stage);
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                transaction.add(R.id.root_container, fragment, GUIDE_FRAGMENT_TAG);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
             }
         });
+
+        View.OnTouchListener shakeButtonListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final Animation animShake = AnimationUtils.loadAnimation(MainActivity.this, R.anim.btn_animation);
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        v.startAnimation(animShake);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        v.clearAnimation();
+                        break;
+                }
+                return false;
+            }
+        };
+
+
+        recordBtn.setOnTouchListener(shakeButtonListener);
+        playBtn.setOnTouchListener(shakeButtonListener);
 
 
         MusicPlayer.getInstance().initialize(this);
         MusicPlayer.getInstance().play(true);
 
+        ImageButton imageButton = findViewById(R.id.music_btn);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(MusicPlayer.getInstance().getIsPaused()){
+                    ((ImageButton)v).setSelected(false);
+                    MusicPlayer.getInstance().play(true);
+                }else{
+                    ((ImageButton)v).setSelected(true);
+                    MusicPlayer.getInstance().pause(true);
+                }
 
-
-
-
-
-
+            }
+        });
     }
 }

@@ -5,9 +5,10 @@ import android.media.MediaPlayer;
 
 public class MusicPlayer {
 
-    private static MusicPlayer instance;
+    private static MusicPlayer instance = null;
     private MediaPlayer mediaPlayer;
     private boolean pausedByUser = false;
+
 
     public static MusicPlayer getInstance() {
         if (instance == null) {
@@ -38,5 +39,7 @@ public class MusicPlayer {
         this.mediaPlayer.pause();
     }
 
-    public void pausedByUser (){ pausedByUser = true; }
+    public boolean getIsPaused (){
+        return pausedByUser;
+    }
 }
