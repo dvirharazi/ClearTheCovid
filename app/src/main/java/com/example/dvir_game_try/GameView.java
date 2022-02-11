@@ -1,8 +1,5 @@
 package com.example.dvir_game_try;
 
-import static com.example.dvir_game_try.GameActivity.screenRatioX;
-import static com.example.dvir_game_try.GameActivity.screenRatioY;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,6 +14,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -214,13 +213,13 @@ public class GameView extends SurfaceView implements Runnable {
 
             pauseBtn = BitmapFactory.decodeResource(getResources(), R.drawable.menu);
             pauseBtn = Bitmap.createScaledBitmap(pauseBtn, 100, 100, false);
-            canvas.drawBitmap(pauseBtn, (screenX-screenX/8), screenY/8, paint);
+            canvas.drawBitmap(pauseBtn, (screenX-screenX/8), 50, paint);
 
             Bitmap redLive = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
             redLive = Bitmap.createScaledBitmap(redLive, 100 , 100, false);
 
             for (int i = 0; i < lives; i++) {
-                canvas.drawBitmap(redLive, (100 * (i + 1)) * screenRatioX, 50 * screenRatioY, paint);
+                canvas.drawBitmap(redLive, (100 * (i + 1)), 50, paint);
             }
 
             if (coronaStage) {
@@ -234,7 +233,7 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(enemy.getObject(), enemy.x, enemy.y, paint);
             }
 
-            canvas.drawText(score + "", screenX / 2f, 164, paint);
+            canvas.drawText(score + "", screenX / 2f, 150, paint);
             if (isGameOver) {
                 isPlaying = false;
                 getHolder().unlockCanvasAndPost(canvas);
@@ -312,23 +311,15 @@ public class GameView extends SurfaceView implements Runnable {
         ((Activity) getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                View dialogView = activity.getLayoutInflater().inflate(R.layout.menu_dialog, null);
-                builder.setView(dialogView).setNegativeButton("exit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        resume();
-                    }
-                }).setPositiveButton("menu", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        activity.startActivity(intent);
-                        activity.finish();
-                    }
-                }).setCancelable(false).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+                View viewInflater = inflater.inflate(R.layout.menu_dialog, null);
+                builder.setView(viewInflater);
+                AlertDialog finishDialog = builder.create();
+                finishDialog.setCancelable(false);
+                finishDialog.show();
 
-                ImageButton music_button = dialogView.findViewById(R.id.music_change);
+                ImageButton music_button = viewInflater.findViewById(R.id.music_change);
                 music_button.setSelected(!MusicPlayer.getInstance().getIsPaused());
                 music_button.setOnClickListener(new OnClickListener() {
                     @Override
@@ -340,6 +331,24 @@ public class GameView extends SurfaceView implements Runnable {
                             v.setSelected(true);
                             MusicPlayer.getInstance().play(true);
                         }
+                    }
+                });
+                ImageButton home_btn = viewInflater.findViewById(R.id.home_btn);
+                home_btn.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finishDialog.dismiss();
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
+                    }
+                });
+                ImageButton back_to_game_btn = viewInflater.findViewById(R.id.exit_dialog);
+                back_to_game_btn.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finishDialog.dismiss();
+                        resume();
                     }
                 });
 
@@ -377,9 +386,9 @@ public class GameView extends SurfaceView implements Runnable {
         int x = (int) event.getX();
         int y = (int) event.getY();
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (new RectF((screenX-screenX/8) * screenRatioX, 50 * screenRatioY,
-                    (1600 + pauseBtn.getWidth()) * screenRatioX,
-                    (100 + pauseBtn.getHeight()) * screenRatioY).contains(x, y)) {
+            if (new RectF((screenX-screenX/8), 50 ,
+                    (screenX-screenX/8)+pauseBtn.getWidth(),
+                    50+pauseBtn.getHeight()).contains(x, y)) {
                 if (isPlaying) {
                     pause();
                     openMenuDialog();

@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 public class Covid extends ObjectView implements Serializable {
 
-    Bitmap covid;
     Integer[] picture;
 
     Covid(Resources resources, Integer [] picture, int minSpeed, int maxSpeed){
@@ -26,17 +25,8 @@ public class Covid extends ObjectView implements Serializable {
         return newCovid;
     }
 
-
-
     Rect getCollisionShape(){
         return new Rect(x, y, (int) (x + width), (int) (y+ height));
     }
-//    @Override
-//    public int isInfected(Player player, int lives, int score) {
-//        int isInfected = super.isInfected(player, lives, score);
-//        if (isInfected == 1) {
-//            lives--;
-//        }
-//        return lives;
-//    }
+
 }

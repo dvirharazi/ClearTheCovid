@@ -1,59 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/middle_game_dialog">
+    android:id="@+id/middle_game_dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
+        android:id="@+id/rel_dialog"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="20dp">
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent">
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:scaleType="centerCrop"
-            android:src="@drawable/stone_dialog"/>
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Setting"
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/stone_dialog" />
 
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:id="@+id/set_title"
-            android:layout_centerHorizontal="true"/>
+            <RelativeLayout
+                android:id="@+id/info_stage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/set_music"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/set_title"
-            android:layout_centerHorizontal="true"
-            android:layout_toStartOf="@+id/set_title"
-            android:text="Music: "
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+                <ImageButton
+                    android:id="@+id/music_change"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/btn_selector"
+                    android:scaleType="fitXY" />
 
-        <ImageButton
-            android:id="@+id/music_change"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/btn_selector"
-            />
+                <ImageButton
+                    android:id="@+id/home_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/home_btn"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/exit_dialog"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/back_to_game_btn"
+                    android:scaleType="fitXY" />
+
+            </RelativeLayout>
 
 
+        </androidx.cardview.widget.CardView>
 
-
-
-
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
 
 </RelativeLayout>

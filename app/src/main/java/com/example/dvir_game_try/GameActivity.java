@@ -14,13 +14,12 @@ import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
 
-    public static float screenRatioX, screenRatioY;
+//    public static float screenRatioX, screenRatioY;
     private GameView gameView;
     private ArrayList<Integer> enemiesPic = new ArrayList<>();
     private Stage stage;
     private SharedPreferences sp;
     private static Boolean isMusicPlaying = false;
-    int level,numberOfEnemies,numberOfPeople,time;
     final String GUIDE_FRAGMENT_TAG = "guide_fragment";
 
 
@@ -33,8 +32,8 @@ public class GameActivity extends AppCompatActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
 
-        screenRatioX = (float) (1920f / point.x);
-        screenRatioY = (float) (1080f / point.y);
+//        screenRatioX = (float) (1920f / point.x);
+//        screenRatioY = (float) (1080f / point.y);
 
 
         stage = new Stage(getResources(),1, 2, 3, 1, 10,20);

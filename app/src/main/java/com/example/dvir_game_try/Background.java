@@ -1,8 +1,5 @@
 package com.example.dvir_game_try;
 
-import static com.example.dvir_game_try.GameActivity.screenRatioX;
-import static com.example.dvir_game_try.GameActivity.screenRatioY;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

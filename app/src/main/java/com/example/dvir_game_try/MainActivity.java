@@ -78,22 +78,31 @@ public class MainActivity extends BaseActivity {
         playBtn.setOnTouchListener(shakeButtonListener);
 
 
-        MusicPlayer.getInstance().initialize(this);
-        MusicPlayer.getInstance().play(true);
+
+
 
         ImageButton imageButton = findViewById(R.id.music_btn);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(MusicPlayer.getInstance().getIsPaused()){
-                    ((ImageButton)v).setSelected(false);
+                    v.setSelected(false);
                     MusicPlayer.getInstance().play(true);
                 }else{
-                    ((ImageButton)v).setSelected(true);
+                    v.setSelected(true);
                     MusicPlayer.getInstance().pause(true);
                 }
 
             }
         });
+
+        MusicPlayer.getInstance().initialize(this);
+        if(!MusicPlayer.getInstance().getIsPaused()){
+            MusicPlayer.getInstance().play(true);
+            imageButton.setSelected(false);
+        }
+        else{
+            imageButton.setSelected(true);
+        }
     }
 }
