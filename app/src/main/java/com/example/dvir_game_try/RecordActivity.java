@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class RecordActivity extends AppCompatActivity {
     SharedPreferences sp;
@@ -36,9 +37,12 @@ public class RecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         sp = getSharedPreferences("game_10_records", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
 
-        MusicPlayer.getInstance().play(true);
-        ImageView BackBtn = findViewById(R.id.Back_Btn);
+        if (!MusicPlayer.getInstance().getIsPaused()) {
+            MusicPlayer.getInstance().play(true);
+        }
+
         Button backToMenu = findViewById(R.id.back_to_menu);
         backToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +56,7 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 final Animation animShake = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.btn_animation);
-                switch (event.getAction()){
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.startAnimation(animShake);
                         break;
@@ -75,55 +79,30 @@ public class RecordActivity extends AppCompatActivity {
             System.out.println(record);
             topRecords.add(record);
 
+            //get all the records from memory
+            getRecordsFromSharedPreferences(sp, topRecords);
 
-            Map<String, ?> keys = sp.getAll();
+            topRecords.sort((o1, o2) -> o2.compareTo(o1));
 
-            for (Map.Entry<String, ?> entry : keys.entrySet()) {
-                if (keys.size() > 0) {
-                    String infoRecord = (String) entry.getValue();
-
-                    System.out.println(infoRecord);
-
-                    String[] info = infoRecord.split("\\s+");
-                    record = new Record(info[1], info[0], entry.getKey());
-                    topRecords.add(record);
-                }
-            }
-            topRecords.sort((o1, o2) -> {
-                return o2.compareTo(o1);
-            });
-
+            //set id for each record
             for (int i = 0; i < topRecords.size(); i++) {
                 topRecords.get(i).setId(String.valueOf(i + 1));
             }
 
+            //delete the last record if there more then 10 records
             if (topRecords.size() > 10) {
                 topRecords.remove(topRecords.get(topRecords.size()));
             }
-
+            // write to memory
             for (int i = 0; i < topRecords.size(); i++) {
-                SharedPreferences.Editor editor = sp.edit();
                 editor.putString("id" + i, Integer.valueOf(topRecords.get(i).getPoint()) + " " + topRecords.get(i).getName());
-                editor.apply();
             }
+            editor.apply();
+
         } else {
-            Map<String, ?> keys = sp.getAll();
-            for (Map.Entry<String, ?> entry : keys.entrySet()) {
-                System.out.println(entry.getValue());
-            }
-            for (Map.Entry<String, ?> entry : keys.entrySet()) {
-                if (keys.size() > 0) {
-                    String infoRecord = (String) entry.getValue();
-                    System.out.println(infoRecord);
-                    String[] info = infoRecord.split("\\s+");
-                    record = new Record(info[1], info[0], "1");
-                    topRecords.add(record);
-                }
-            }
+            getRecordsFromSharedPreferences(sp, topRecords);
         }
-        topRecords.sort((o1, o2) -> {
-            return o2.compareTo(o1);
-        });
+        topRecords.sort((o1, o2) -> o2.compareTo(o1));
 
         for (int i = 0; i < topRecords.size(); i++) {
             topRecords.get(i).setId(String.valueOf(i + 1));
@@ -133,12 +112,18 @@ public class RecordActivity extends AppCompatActivity {
         RecordAdapter recordAdapter = new RecordAdapter(topRecords, this);
         recordsView.setAdapter(recordAdapter);
 
-        BackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RecordActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+    }
+
+    private void getRecordsFromSharedPreferences(SharedPreferences sp, List<Record> topRecords){
+        Map<String, ?> keys = sp.getAll();
+
+        for (Map.Entry<String, ?> entry : keys.entrySet()) {
+            int i = 0;
+            String infoRecord = (String) entry.getValue();
+            System.out.println(infoRecord);
+            String[] info = infoRecord.split("\\s+");
+            record = new Record(info[1], info[0], "");
+            topRecords.add(record);
+        }
     }
 }

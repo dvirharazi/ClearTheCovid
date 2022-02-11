@@ -214,10 +214,10 @@ public class GameView extends SurfaceView implements Runnable {
 
             pauseBtn = BitmapFactory.decodeResource(getResources(), R.drawable.menu);
             pauseBtn = Bitmap.createScaledBitmap(pauseBtn, 100, 100, false);
-            canvas.drawBitmap(pauseBtn, (screenX-screenX/8) * screenRatioX, 50 * screenRatioY, paint);
+            canvas.drawBitmap(pauseBtn, (screenX-screenX/8), screenY/8, paint);
 
             Bitmap redLive = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
-            redLive = Bitmap.createScaledBitmap(redLive, 100, 100, false);
+            redLive = Bitmap.createScaledBitmap(redLive, 100 , 100, false);
 
             for (int i = 0; i < lives; i++) {
                 canvas.drawBitmap(redLive, (100 * (i + 1)) * screenRatioX, 50 * screenRatioY, paint);
@@ -298,11 +298,9 @@ public class GameView extends SurfaceView implements Runnable {
                 saveToRecord.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        System.out.println("lal");
                         Intent intent = new Intent(activity, RecordActivity.class);
                         intent.putExtra("name", nameEt.getText().toString());
                         intent.putExtra("score", String.valueOf(score));
-                        System.out.println("l");
                         activity.startActivity(intent);
                     }
                 });
@@ -345,18 +343,6 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 });
 
-//                @SuppressLint("UseSwitchCompatOrMaterialCode") Switch aSwitch = dialogView.findViewById(R.id.switch_music);
-//                aSwitch.setChecked(!MusicPlayer.getInstance().getIsPaused());
-//                aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                        if (isChecked) {
-//                            MusicPlayer.getInstance().play(true);
-//                        } else {
-//                            MusicPlayer.getInstance().pause(true);
-//                        }
-//                    }
-//                });
             }
         });
     }
