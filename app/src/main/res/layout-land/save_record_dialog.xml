@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="your score is: "
+        android:text="@string/your_score_is"
         android:layout_gravity="center"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -17,19 +17,19 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter Name"
+        android:hint="@string/enter_name"
         android:id="@+id/edit_name"
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:textAlignment="center"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:id="@+id/save_to_record_table"
-        android:background="@drawable/btn_selector"
-        android:text="Save"/>
+        android:background="@drawable/s_btn"
+        android:text="@string/save"/>
 
 
 
