@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="records"
+        android:text="@string/records"
         android:textAlignment="center"
         android:gravity="center"
         android:textStyle="bold"
@@ -38,7 +38,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:text="menu"
+        android:text="@string/home"
         android:layout_margin="10dp"
         android:padding="10dp"
         android:textAlignment="center"
