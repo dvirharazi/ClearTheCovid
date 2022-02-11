@@ -4,6 +4,13 @@
     <string name="music">Music:</string>
     <string name="guide">Guide:</string>
     <string name="back_to_menu">Back to menu:</string>
-    <string name="play">play</string>
-    <string name="records">records</string>
+    <string name="play">Play</string>
+    <string name="records">Records</string>
+    <string name="your_enemies">Infected</string>
+    <string name="next">Next</string>
+    <string name="your_score_is">Your Score</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="save">Save</string>
+    <string name="lives">Lives</string>
+    <string name="level">Level</string>
 </resources>

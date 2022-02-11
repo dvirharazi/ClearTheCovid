@@ -45,10 +45,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_centerVertical="true"
-                        android:text="Infected "
+                        android:text="@string/your_enemies"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="30dp"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -73,10 +73,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_centerVertical="true"
-                        android:text="Lives "
+                        android:text="@string/lives"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="30dp"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -102,10 +102,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_centerVertical="true"
-                        android:text="Level "
+                        android:text="@string/level"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="30dp"
+                        android:textSize="30sp"
                         android:textStyle="bold"
                         android:paddingTop="10dp"/>
 
@@ -128,7 +128,7 @@
         android:layout_gravity="center"
         android:background="@drawable/s_btn"
         android:scaleType="fitXY"
-        android:text="next"
+        android:text="@string/next"
         android:textAlignment="center"
         android:textColor="@color/black" />
 

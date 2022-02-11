@@ -3,13 +3,15 @@
     <string name="app_name">חסל את המגפה</string>
     <string name="play">שחק</string>
     <string name="records">טבלת שיאים</string>
-    <string name="your_enemies">האוייבים:</string>
+    <string name="your_enemies">נגועים</string>
     <string name="next">המשך</string>
-    <string name="your_score_is">הניקוד שלך:</string>
+    <string name="your_score_is">הניקוד שלך</string>
     <string name="enter_name">הכנס את שמך</string>
     <string name="save">שמור</string>
     <string name="setting">הגדרות</string>
     <string name="music">צלילים</string>
     <string name="guide">מדריך</string>
     <string name="back_to_menu">חזור למשחק</string>
+    <string name="lives">חיים</string>
+    <string name="level">שלב</string>
 </resources>
