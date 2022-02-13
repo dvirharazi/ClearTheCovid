@@ -1,8 +1,5 @@
 package com.example.ClearTheCovid;
 
-//import static com.example.dvir_game_try.GameActivity.screenRatioX;
-//import static com.example.dvir_game_try.GameActivity.screenRatioY;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,18 +30,11 @@ public class ObjectView {
         width /=3;
         height/=3;
 
-//        width = (int) (width * screenRatioX);
-//        height = (int)(height * screenRatioY);
-
         object = Bitmap.createScaledBitmap(object, width, height, false);
 
         y =- height;
 
         speed = random.nextInt(maxSpeed + 1 - minSpeed) + minSpeed;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 
     public int getX() {
@@ -68,7 +58,7 @@ public class ObjectView {
     }
 
     Rect getCollisionShape(){
-        return new Rect(x, y, (int) (x + width), (int) (y+ height));
+        return new Rect(x, y, (x + width),(y+ height));
     }
 
 

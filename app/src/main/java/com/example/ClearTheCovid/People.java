@@ -4,7 +4,6 @@ import android.content.res.Resources;
 
 import java.io.Serializable;
 
-
 public class People extends ObjectView implements Serializable {
 
     Integer[] picture;
@@ -26,7 +25,4 @@ public class People extends ObjectView implements Serializable {
         }
     }
 
-    public Integer[] getPicture() {
-        return picture;
-    }
 }

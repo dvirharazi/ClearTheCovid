@@ -19,14 +19,14 @@ public class Covid extends ObjectView implements Serializable {
     public void decreaseSize(Covid covid){
         covid.object = Bitmap.createScaledBitmap(covid.getObject(), covid.width-=10,covid.height-=10, false);
     }
-    public Covid increaseSize(Covid covid, float width, float height){
+    public Covid increaseSize(float width, float height){
         Covid newCovid = new Covid(resources, new Integer[]{R.drawable.covid}, 10,20);
         newCovid.object = Bitmap.createScaledBitmap(newCovid.getObject(), (int)width, (int)height, false);
         return newCovid;
     }
 
     Rect getCollisionShape(){
-        return new Rect(x, y, (int) (x + width), (int) (y+ height));
+        return new Rect(x, y,(x + width),(y+ height));
     }
 
 }

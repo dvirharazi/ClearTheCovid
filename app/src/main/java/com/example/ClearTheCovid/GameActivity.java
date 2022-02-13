@@ -5,16 +5,11 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import java.util.ArrayList;
 
 public class GameActivity extends BaseActivity {
 
-//    public static float screenRatioX, screenRatioY;
     private GameView gameView;
-    private ArrayList<Integer> enemiesPic = new ArrayList<>();
     private Stage stage;
-    private SharedPreferences sp;
-    private static Boolean isMusicPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

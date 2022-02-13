@@ -2,6 +2,7 @@ package com.example.ClearTheCovid;
 
 import androidx.annotation.RequiresApi;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -23,6 +24,7 @@ public class RecordActivity extends BaseActivity {
     List<Record> topRecords = new ArrayList<>();
     Record record;
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,28 +40,22 @@ public class RecordActivity extends BaseActivity {
         }
 
         Button backToMenu = findViewById(R.id.back_to_menu);
-        backToMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(RecordActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+        backToMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(RecordActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
-        View.OnTouchListener shakeButtonListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final Animation animShake = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.btn_animation);
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.startAnimation(animShake);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.clearAnimation();
-                        break;
-                }
-                return false;
+        @SuppressLint("ClickableViewAccessibility") View.OnTouchListener shakeButtonListener = (v, event) -> {
+            final Animation animShake = AnimationUtils.loadAnimation(RecordActivity.this, R.anim.btn_animation);
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    v.startAnimation(animShake);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    v.clearAnimation();
+                    break;
             }
+            return false;
         };
 
         backToMenu.setOnTouchListener(shakeButtonListener);
@@ -112,7 +108,6 @@ public class RecordActivity extends BaseActivity {
         Map<String, ?> keys = sp.getAll();
 
         for (Map.Entry<String, ?> entry : keys.entrySet()) {
-            int i = 0;
             String infoRecord = (String) entry.getValue();
             String[] info = infoRecord.split("\\s+");
             record = new Record(info[1], info[0], "");

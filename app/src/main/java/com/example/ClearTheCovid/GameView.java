@@ -76,7 +76,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void update() {
 
-        if (stage.isCoronaStage()) {
+        if (Stage.isCoronaStage()) {
             stage.getCovid().x -= stage.getCovid().speed;
             if (stage.getCovid().x + stage.getCovid().width < 0) {
                 if (!stage.getCovid().firstTimeInit) {
@@ -132,7 +132,7 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(redLive, (100 * (i + 1)), 50, paint);
             }
 
-            if (stage.isCoronaStage()) {
+            if (Stage.isCoronaStage()) {
                 canvas.drawBitmap(stage.getCovid().getObject(), stage.getCovid().getX(), stage.getCovid().getY(), paint);
             }
 
@@ -171,11 +171,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void saveIfHighScore() {
         Map<String, ?> keys = sp.getAll();
-//        for (Map.Entry<String, ?> entry : keys.entrySet()) {
-//            SharedPreferences.Editor editor = sp.edit();
-//            editor.remove(entry.getKey());
-//            editor.apply();
-//            }
         if (sp.getAll().size() < 10) {
             openDialog();
         } else {
@@ -194,86 +189,68 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void openDialog() {
-        ((Activity) getContext()).runOnUiThread(new Runnable() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                View dialogView = activity.getLayoutInflater().inflate(R.layout.save_record_dialog, null);
-                builder.setView(dialogView).setCancelable(false).show();
+        ((Activity) getContext()).runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            View dialogView = activity.getLayoutInflater().inflate(R.layout.save_record_dialog, null);
+            builder.setView(dialogView).setCancelable(false).show();
 
-                Button saveToRecord = dialogView.findViewById(R.id.save_to_record_table);
-                EditText nameEt = dialogView.findViewById(R.id.edit_name);
-                TextView yourScore = dialogView.findViewById(R.id.your_score);
-                yourScore.setText(yourScore.getText().toString() + " " + score);
+            Button saveToRecord = dialogView.findViewById(R.id.save_to_record_table);
+            EditText nameEt = dialogView.findViewById(R.id.edit_name);
+            TextView yourScore = dialogView.findViewById(R.id.your_score);
+            yourScore.setText(yourScore.getText().toString() + " " + score);
 
-                saveToRecord.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(activity, RecordActivity.class);
-                        intent.putExtra("name", nameEt.getText().toString());
-                        intent.putExtra("score", String.valueOf(score));
+            saveToRecord.setOnClickListener(v -> {
+                Intent intent = new Intent(activity, RecordActivity.class);
+                intent.putExtra("name", nameEt.getText().toString());
+                intent.putExtra("score", String.valueOf(score));
 
-                        if (nameEt.getText().toString().length() == 0) { //Name validation
-                            nameEt.setError(getResources().getString(R.string.please_enter_your_name));
-                        }
-                        if(nameEt.getText().toString().length() != 0) {
+                if (nameEt.getText().toString().length() == 0) { //Name validation
+                    nameEt.setError(getResources().getString(R.string.please_enter_your_name));
+                }
+                if(nameEt.getText().toString().length() != 0) {
 
-                            activity.startActivity(intent);
-                        }
-                    }
-                });
-            }
+                    activity.startActivity(intent);
+                }
+            });
         });
     }
 
     private void openMenuDialog() {
-        ((Activity) getContext()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
-                View viewInflater = inflater.inflate(R.layout.menu_dialog, null);
-                builder.setView(viewInflater);
-                AlertDialog finishDialog = builder.create();
-                finishDialog.setCancelable(false);
-                finishDialog.show();
+        ((Activity) getContext()).runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+            View viewInflater = inflater.inflate(R.layout.menu_dialog, null);
+            builder.setView(viewInflater);
+            AlertDialog finishDialog = builder.create();
+            finishDialog.setCancelable(false);
+            finishDialog.show();
 
-                ImageButton music_button = viewInflater.findViewById(R.id.music_change);
-                music_button.setSelected(!MusicPlayer.getInstance().getIsPaused());
-                music_button.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (v.isSelected()) {
-                            v.setSelected(false);
-                            MusicPlayer.getInstance().pause(true);
-                        } else {
-                            v.setSelected(true);
-                            MusicPlayer.getInstance().play(true);
-                        }
-                    }
-                });
-                ImageButton home_btn = viewInflater.findViewById(R.id.home_btn);
-                home_btn.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finishDialog.dismiss();
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        activity.startActivity(intent);
-                        activity.finish();
-                    }
-                });
-                ImageButton back_to_game_btn = viewInflater.findViewById(R.id.exit_dialog);
-                back_to_game_btn.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finishDialog.dismiss();
-                        resume();
-                    }
-                });
+            ImageButton music_button = viewInflater.findViewById(R.id.music_change);
+            music_button.setSelected(!MusicPlayer.getInstance().getIsPaused());
+            music_button.setOnClickListener(v -> {
+                if (v.isSelected()) {
+                    v.setSelected(false);
+                    MusicPlayer.getInstance().pause(true);
+                } else {
+                    v.setSelected(true);
+                    MusicPlayer.getInstance().play(true);
+                }
+            });
+            ImageButton home_btn = viewInflater.findViewById(R.id.home_btn);
+            home_btn.setOnClickListener(v -> {
+                finishDialog.dismiss();
+                Intent intent = new Intent(activity, MainActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
+            });
+            ImageButton back_to_game_btn = viewInflater.findViewById(R.id.exit_dialog);
+            back_to_game_btn.setOnClickListener(v -> {
+                finishDialog.dismiss();
+                resume();
+            });
 
-            }
         });
     }
 
@@ -333,8 +310,8 @@ public class GameView extends SurfaceView implements Runnable {
                     stage.getCovid().decreaseSize(stage.getCovid());
                 } else {
                     score += 5;
-                    stage.setCovid(stage.getCovid().increaseSize(stage.getCovid(), stage.covidWidth, stage.covidHeight));
-                    stage.setCoronaStage(false);
+                    stage.setCovid(stage.getCovid().increaseSize(stage.covidWidth, stage.covidHeight));
+                    Stage.setCoronaStage(false);
                 }
             }
         }

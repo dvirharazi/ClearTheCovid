@@ -24,11 +24,8 @@ public class Enemy extends ObjectView implements Serializable {
         else setPicture(this.picture[0]);
     }
     Rect getCollisionShape(){
-        return new Rect(x, y, (int) (x + width), (int) (y+ height));
+        return new Rect(x, y, (x + width), (y+ height));
     }
 
-//    public Integer[] getPicture() {
-//        return picture;
-//    }
 }
 

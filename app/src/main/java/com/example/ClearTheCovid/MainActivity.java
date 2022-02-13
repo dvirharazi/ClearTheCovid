@@ -26,19 +26,14 @@ public class MainActivity extends BaseActivity {
 
         Button playBtn = findViewById(R.id.play);
         Button recordBtn = findViewById(R.id.move_to_record);
-        Button moveToTutorial = findViewById(R.id.move_to_tutorial);
+        @SuppressLint("CutPasteId") Button moveToTutorial = findViewById(R.id.move_to_tutorial);
 
         ImageView covid1 = findViewById(R.id.covid1);
         ImageView covid2 = findViewById(R.id.covid2);
         ImageView covid3 = findViewById(R.id.covid3);
 
-        Button moveTutorial = findViewById(R.id.move_to_tutorial);
-        moveTutorial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_containerplay, new GuideFragment_1(), null).addToBackStack("First Guidance").commit();
-            }
-        });
+        @SuppressLint("CutPasteId") Button moveTutorial = findViewById(R.id.move_to_tutorial);
+        moveTutorial.setOnClickListener(v -> getSupportFragmentManager().beginTransaction().add(R.id.fragment_containerplay, new GuideFragment_1(), null).addToBackStack("First Guidance").commit());
 
 
 
@@ -47,36 +42,27 @@ public class MainActivity extends BaseActivity {
         covid2.startAnimation(moveAnim);
         covid3.startAnimation(moveAnim);
 
-        recordBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RecordActivity.class);
-                startActivity(intent);
-            }
+        recordBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RecordActivity.class);
+            startActivity(intent);
         });
 
-        playBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                startActivity(intent);
-            }
+        playBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            startActivity(intent);
         });
 
-        View.OnTouchListener shakeButtonListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final Animation animShake = AnimationUtils.loadAnimation(MainActivity.this, R.anim.btn_animation);
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        v.startAnimation(animShake);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.clearAnimation();
-                        break;
-                }
-                return false;
+        View.OnTouchListener shakeButtonListener = (v, event) -> {
+            final Animation animShake = AnimationUtils.loadAnimation(MainActivity.this, R.anim.btn_animation);
+            switch (event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    v.startAnimation(animShake);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    v.clearAnimation();
+                    break;
             }
+            return false;
         };
 
 
@@ -85,25 +71,17 @@ public class MainActivity extends BaseActivity {
         moveToTutorial.setOnTouchListener(shakeButtonListener);
 
         ImageButton imageButton = findViewById(R.id.music_btn);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(MusicPlayer.getInstance().getIsPaused()){
-                    v.setSelected(true);
-                    MusicPlayer.getInstance().play(true);
-                }else{
-                    v.setSelected(false);
-                    MusicPlayer.getInstance().pause(true);
-                }
+        imageButton.setOnClickListener(v -> {
+            if(MusicPlayer.getInstance().getIsPaused()){
+                v.setSelected(true);
+                MusicPlayer.getInstance().play(true);
+            }else{
+                v.setSelected(false);
+                MusicPlayer.getInstance().pause(true);
             }
         });
 
         MusicPlayer.getInstance().initialize(this);
-        if(!MusicPlayer.getInstance().getIsPaused()){
-            imageButton.setSelected(true);
-        }
-        else{
-            imageButton.setSelected(false);
-        }
+        imageButton.setSelected(!MusicPlayer.getInstance().getIsPaused());
     }
 }

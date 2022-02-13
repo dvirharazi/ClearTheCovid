@@ -14,14 +14,6 @@ public class TimerStage extends TimerTask {
         this.gameView = gameView;
     }
 
-    public static int getStageTimerCount() {
-        return stageTimerCount;
-    }
-
-    public static void setStageTimerCount(int stageTimerCount) {
-        TimerStage.stageTimerCount = stageTimerCount;
-    }
-
     @Override
     public void run() {
         if(stageTimerCount < 0){

@@ -32,10 +32,6 @@ public class Record {
         return point;
     }
 
-    public void setPoint(String point) {
-        this.point = point;
-    }
-
     public String getId() {
         return id;
     }
