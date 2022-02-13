@@ -12,18 +12,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
@@ -44,16 +40,11 @@ public class GameView extends SurfaceView implements Runnable {
     private final Paint paint;
     private final SharedPreferences sp;
     private final Stage stage;
-    Covid covid;
-    static boolean coronaStage = false;
     Timer timer = new Timer();
-    private int lives = 3;
     Bitmap pauseBtn;
     private final Random random;
     private final GameActivity activity;
     private final Background background1;
-    private final float covidWidth;
-    private final float covidHeight;
 
     public GameView(GameActivity activity, int screenX, int screenY, Stage stage) {
         super(activity);
@@ -73,36 +64,13 @@ public class GameView extends SurfaceView implements Runnable {
 
         random = new Random();
 
-        covid = new Covid(getResources(), new Integer[]{R.drawable.covid}, 10, 20);
-
-        covidWidth = covid.getWidth();
-        covidHeight = covid.getHeight();
-
-
     }
 
     @Override
     public void run() {
-
         timer = new Timer();
-        TimerTask task = new TimerTask() {
-            int i = stage.getTime();
-
-            public void run() {
-                if (stage.getLevel() == 1) {
-                    firstStageGuide();
-                    goToNextStage();
-                }
-                if (i >= 0) {
-                    i--;
-                } else {
-                    goToNextStage();
-                    i = stage.getTime();
-                }
-            }
-        };
-        timer.schedule(task, 0, 1000);
-
+        TimerStage timerStage = new TimerStage(this.stage, this);
+        timer.schedule(timerStage, 0, 1000);
 
         while (isPlaying) {
             update();
@@ -112,69 +80,17 @@ public class GameView extends SurfaceView implements Runnable {
         timer.cancel();
     }
 
-    private void goToNextStage() {
-        if ((stage.getLevel() - 1) % 3 == 0) {
-            if ((stage.getLevel() - 1) != 0) {
-                coronaStage = true;
-            }
-        }
-
-        if ((stage.getLevel() - 1) % 5 == 0) {
-            pause();
-            if ((stage.getLevel() - 1) != 0) {
-                stage.setNumberOfEnemies(stage.getNumberOfEnemies() + 1);
-                stage.setEnemiesPic(stage.updateEnemiesPicArray());
-                stage.updateEnemiesPicArray();
-                stage.updateEnemiesArray();
-
-                stage.setNumberOfPeople(stage.getNumberOfPeople() + 1);
-                stage.setPeoplePic(stage.updatePeoplesPicArray());
-                stage.updatePeoplesPicArray();
-                stage.updatePeoplesArray();
-
-                stage.setMaxSpeed(20);
-                stage.setMinSpeed(10);
-            }
-            ArrayList<Integer> enemies = new ArrayList<>();
-            for (Integer[] i : stage.getEnemiesPic()) {
-                enemies.add(i[0]);
-            }
-            GuideFragment1 fragment = GuideFragment1.newInstance(enemies, lives, stage.getLevel());
-            FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(android.R.id.content, fragment, "lal");
-            transaction.addToBackStack(null);
-            transaction.commit();
-
-            do {
-                assert fragment.getArguments() != null;
-            } while ((boolean) fragment.getArguments().get("fragmentIsOpen"));
-
-            resume();
-        } else {
-            stage.setTime(stage.getTime() + 1); //change to 5
-            stage.setMinSpeed(stage.getMinSpeed() + 2);
-            stage.setMaxSpeed(stage.getMaxSpeed() + 2);
-            System.out.println("level is : " + stage.getLevel());
-        }
-        stage.setLevel(stage.getLevel() + 1);
-
-    }
-
-    private void firstStageGuide() {
-    }
-
     private void update() {
 
-        if (coronaStage) {
-            covid.x -= covid.speed;
-            if (covid.x + covid.width < 0) {
-                if (!covid.firstTimeInit) {
+        if (stage.isCoronaStage()) {
+            stage.getCovid().x -= stage.getCovid().speed;
+            if (stage.getCovid().x + stage.getCovid().width < 0) {
+                if (!stage.getCovid().firstTimeInit) {
                     isGameOver = true;
                 }
-                covid.x = screenX;
-                covid.y = random.nextInt(screenY - covid.height);
-                covid.firstTimeInit = false;
+                stage.getCovid().x = screenX;
+                stage.getCovid().y = random.nextInt(screenY - stage.getCovid().height);
+                stage.getCovid().firstTimeInit = false;
             }
         }
 
@@ -187,8 +103,8 @@ public class GameView extends SurfaceView implements Runnable {
             if (enemy.x + enemy.width < 0) {
                 if (!enemy.firstTimeInit) {
                     if (!enemy.wasCovered) {
-                        lives--;
-                        if (lives == 0) {
+                        stage.setLives(stage.getLives()-1);
+                        if (stage.getLives() == 0) {
                             isGameOver = true;
                             timer.cancel();
                             return;
@@ -213,17 +129,17 @@ public class GameView extends SurfaceView implements Runnable {
 
             pauseBtn = BitmapFactory.decodeResource(getResources(), R.drawable.menu);
             pauseBtn = Bitmap.createScaledBitmap(pauseBtn, 100, 100, false);
-            canvas.drawBitmap(pauseBtn, (screenX-screenX/8), 50, paint);
+            canvas.drawBitmap(pauseBtn, (screenX - screenX / 8), 50, paint);
 
             Bitmap redLive = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
-            redLive = Bitmap.createScaledBitmap(redLive, 100 , 100, false);
+            redLive = Bitmap.createScaledBitmap(redLive, 100, 100, false);
 
-            for (int i = 0; i < lives; i++) {
+            for (int i = 0; i < stage.getLives(); i++) {
                 canvas.drawBitmap(redLive, (100 * (i + 1)), 50, paint);
             }
 
-            if (coronaStage) {
-                canvas.drawBitmap(covid.getObject(), covid.getX(), covid.getY(), paint);
+            if (stage.isCoronaStage()) {
+                canvas.drawBitmap(stage.getCovid().getObject(), stage.getCovid().getX(), stage.getCovid().getY(), paint);
             }
 
             for (People people : stage.getPeoples()) {
@@ -264,18 +180,20 @@ public class GameView extends SurfaceView implements Runnable {
 //            editor.remove(entry.getKey());
 //            editor.apply();
 //            }
-        System.out.println(sp.getAll().size());
         if (sp.getAll().size() < 10) {
             openDialog();
         } else {
-            int minValue = sp.getInt("1", 0);
+            int minValue = Integer.MAX_VALUE;
             for (Map.Entry<String, ?> entry : keys.entrySet()) {
-                if (minValue > (int) entry.getValue()) {
-                    minValue = (int) entry.getValue();
+                String [] recordInfo = entry.getValue().toString().split("\\s");
+                if (minValue > Integer.parseInt(recordInfo[0])) {
+                    minValue = Integer.parseInt(recordInfo[0]);
                 }
             }
             if (score > minValue) {
                 openDialog();
+            }else{
+                waitBeforeExiting();
             }
         }
     }
@@ -300,7 +218,14 @@ public class GameView extends SurfaceView implements Runnable {
                         Intent intent = new Intent(activity, RecordActivity.class);
                         intent.putExtra("name", nameEt.getText().toString());
                         intent.putExtra("score", String.valueOf(score));
-                        activity.startActivity(intent);
+
+                        if (nameEt.getText().toString().length() == 0) { //Name validation
+                            nameEt.setError(getResources().getString(R.string.please_enter_your_name));
+                        }
+                        if(nameEt.getText().toString().length() != 0) {
+
+                            activity.startActivity(intent);
+                        }
                     }
                 });
             }
@@ -324,10 +249,10 @@ public class GameView extends SurfaceView implements Runnable {
                 music_button.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(v.isSelected()){
+                        if (v.isSelected()) {
                             v.setSelected(false);
                             MusicPlayer.getInstance().pause(true);
-                        }else{
+                        } else {
                             v.setSelected(true);
                             MusicPlayer.getInstance().play(true);
                         }
@@ -386,9 +311,9 @@ public class GameView extends SurfaceView implements Runnable {
         int x = (int) event.getX();
         int y = (int) event.getY();
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (new RectF((screenX-screenX/8), 50 ,
-                    (screenX-screenX/8)+pauseBtn.getWidth(),
-                    50+pauseBtn.getHeight()).contains(x, y)) {
+            if (new RectF((screenX - screenX / 8), 50,
+                    (screenX - screenX / 8) + pauseBtn.getWidth(),
+                    50 + pauseBtn.getHeight()).contains(x, y)) {
                 if (isPlaying) {
                     pause();
                     openMenuDialog();
@@ -407,13 +332,13 @@ public class GameView extends SurfaceView implements Runnable {
                     score--;
                 }
             }
-            if (covid.getCollisionShape().contains(x, y)) {
-                if (covid.width > 150) {
-                    covid.decreaseSize(this.covid);
+            if (stage.getCovid().getCollisionShape().contains(x, y)) {
+                if (stage.getCovid().width > 150) {
+                    stage.getCovid().decreaseSize(stage.getCovid());
                 } else {
                     score += 5;
-                    covid = covid.increaseSize(this.covid, covidWidth, covidHeight);
-                    coronaStage = false;
+                    stage.setCovid(stage.getCovid().increaseSize(stage.getCovid(), stage.covidWidth, stage.covidHeight));
+                    stage.setCoronaStage(false);
                 }
             }
         }

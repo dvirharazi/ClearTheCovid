@@ -41,8 +41,6 @@ public class ObjectView {
         y =- height;
 
         speed = random.nextInt(maxSpeed + 1 - minSpeed) + minSpeed;
-        System.out.println(speed);
-
     }
 
     public int getSpeed() {

@@ -14,4 +14,8 @@
     <string name="lives">Lives</string>
     <string name="level">Level</string>
     <string name="home">Home</string>
+    <string name="please_enter_your_name">Please Enter Your Name</string>
+    <string name="click_on_infected">Click on infected</string>
+    <string name="click_5_times_to_clear_the_covid">Click 5 times to clear the covid</string>
+    <string name="find_the_infected_and_put_mask">Find the infected and put mask</string>
 </resources>

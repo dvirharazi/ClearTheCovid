@@ -91,7 +91,7 @@ public class RecordActivity extends AppCompatActivity {
 
             //delete the last record if there more then 10 records
             if (topRecords.size() > 10) {
-                topRecords.remove(topRecords.get(topRecords.size()));
+                topRecords.remove(topRecords.get(topRecords.size()-1));
             }
             // write to memory
             for (int i = 0; i < topRecords.size(); i++) {
@@ -120,7 +120,6 @@ public class RecordActivity extends AppCompatActivity {
         for (Map.Entry<String, ?> entry : keys.entrySet()) {
             int i = 0;
             String infoRecord = (String) entry.getValue();
-            System.out.println(infoRecord);
             String[] info = infoRecord.split("\\s+");
             record = new Record(info[1], info[0], "");
             topRecords.add(record);

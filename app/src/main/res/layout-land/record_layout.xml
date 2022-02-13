@@ -4,27 +4,34 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:id="@+id/record_index"
         android:gravity="center"
+        android:textColor="@color/white"
         android:textAlignment="center"
-        android:layout_weight="0.5"/>
+        android:layout_weight="0.5"
+        android:background="@drawable/stone_dialog"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:gravity="center"
+        android:textColor="@color/white"
         android:id="@+id/username"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:background="@drawable/stone_dialog"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:gravity="center"
+        android:textColor="@color/white"
         android:id="@+id/points"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:background="@drawable/stone_dialog"/>
 
 
 </LinearLayout>

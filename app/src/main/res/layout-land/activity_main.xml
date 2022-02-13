@@ -65,21 +65,37 @@
         android:textAlignment="center"
         android:textColor="@color/black" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/move_to_tutorial"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_margin="5dp"
+        android:layout_below="@id/move_to_record"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/s_btn"
+        android:padding="10dp"
+        android:scaleType="fitXY"
+        android:text="guide"
+        android:textAlignment="center"
+        android:textColor="@color/black"/>
+
     <ImageButton
 
         android:id="@+id/music_btn"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
         android:background="@null"
         android:scaleType="fitXY"
         android:src="@drawable/btn_selector" />
 
 
-
+    <FrameLayout
+        android:id="@+id/fragment_containerplay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="2dp" />
 
 </RelativeLayout>

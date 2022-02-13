@@ -12,6 +12,10 @@ import android.view.WindowManager;
 
 import java.util.ArrayList;
 
+import Fragments.GuideFragment_1;
+import Fragments.GuideFragment_2;
+import Fragments.GuideFragment_3;
+
 public class GameActivity extends AppCompatActivity {
 
 //    public static float screenRatioX, screenRatioY;
@@ -32,11 +36,7 @@ public class GameActivity extends AppCompatActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
 
-//        screenRatioX = (float) (1920f / point.x);
-//        screenRatioY = (float) (1080f / point.y);
-
-
-        stage = new Stage(getResources(),1, 2, 3, 1, 10,20);
+        stage = new Stage(this, getResources(),1, 2, 3, 10, 10,20, point.x,point.y);
         gameView = new GameView(this, point.x, point.y, stage);
 
         setContentView(gameView);

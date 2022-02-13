@@ -1,11 +1,7 @@
-package com.example.dvir_game_try;
+package Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,28 +11,20 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.io.Serializable;
+import com.example.dvir_game_try.R;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Set;
 
-public class GuideFragment1 extends Fragment {
+public class InfoFragment extends Fragment {
 
-    public static GuideFragment1 newInstance(ArrayList<Integer> enemyList, int lives, int level){
-        GuideFragment1 fragment1 = new GuideFragment1();
+    public static InfoFragment newInstance(ArrayList<Integer> enemyList, int lives, int level){
+        InfoFragment fragment1 = new InfoFragment();
         Bundle bundle = new Bundle();
         bundle.putIntegerArrayList("enemiesList", enemyList);
         bundle.putInt("lives", lives);
@@ -50,7 +38,7 @@ public class GuideFragment1 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.guide_fragment_1, container, false);
+        View rootView = inflater.inflate(R.layout.info_fregment, container, false);
 
         LinearLayout linearLayout = rootView.findViewById(R.id.list_of_enemies);
         LinearLayout heartsLayout = rootView.findViewById(R.id.list_of_hearts);
@@ -68,8 +56,6 @@ public class GuideFragment1 extends Fragment {
         heartsPic.setOrientation(LinearLayout.HORIZONTAL);
 
         LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams(100, 100);
-//        imageViewLayoutParams.setMargins(10, 10, 10, 10);
-//        imageViewLayoutParams.weight =1;
 
 
         ArrayList<Integer> arr = (ArrayList<Integer>) getArguments().get("enemiesList");
@@ -84,7 +70,6 @@ public class GuideFragment1 extends Fragment {
         int lives = (int) getArguments().get("lives");
 
         for (int i = 0; i < lives; i++) {
-            System.out.println("lives: " + i);
             ImageView imageView = new ImageView(rootView.getContext());
             imageView.setLayoutParams(imageViewLayoutParams);
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.heart));

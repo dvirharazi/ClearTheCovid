@@ -2,15 +2,18 @@ package com.example.dvir_game_try;
 
 import android.content.res.Resources;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
+import Fragments.InfoFragment;
+
 public class Stage {
+    public final float covidWidth;
+    public final float covidHeight;
     private int level;
     private int numberOfEnemies;
     private int numberOfPeople;
@@ -23,11 +26,24 @@ public class Stage {
     int time;
     int specificObject;
     Random random = new Random();
+    private int screenX;
+    private int screenY;
+    private int lives;
+    private final GameActivity activity;
+
+
+
+    private static boolean coronaStage = false;
+
+
+    private Covid covid;
     List<Integer[]> characterRecycleList = new ArrayList<>();
 
     List<Integer[]> characterList = new ArrayList<>();
 
-    public Stage(Resources resources, int number, int numberOfEnemies, int numberOfPeople, int time, int minSpeed, int maxSpeed) {
+
+
+    public Stage(GameActivity activity, Resources resources, int number, int numberOfEnemies, int numberOfPeople, int time, int minSpeed, int maxSpeed, int screenX, int screenY) {
 
         characterList.add(new Integer[]{R.drawable.people_1, R.drawable.m_people_1});
         characterList.add(new Integer[]{R.drawable.people_2, R.drawable.m_people_2});
@@ -50,6 +66,15 @@ public class Stage {
         characterList.add(new Integer[]{R.drawable.people_20, R.drawable.m_people_20});
         characterList.add(new Integer[]{R.drawable.people_21, R.drawable.m_people_21});
 
+        this.activity = activity;
+        covid = new Covid(resources, new Integer[]{R.drawable.covid}, 10, 20);
+
+        this.covidWidth = covid.getWidth();
+        this.covidHeight = covid.getHeight();
+
+        this.screenX = screenX;
+        this.screenY = screenY;
+        this.lives = 3;
 
         this.resources = resources;
         this.minSpeed = minSpeed;
@@ -66,6 +91,9 @@ public class Stage {
 
     }
 
+    public void setCovid(Covid covid) {
+        this.covid = covid;
+    }
     public int getMinSpeed() {
         return minSpeed;
     }
@@ -110,16 +138,23 @@ public class Stage {
         return peoples;
     }
 
-    public void setPeoples(ArrayList<People> peoples) {
-        this.peoples = peoples;
-    }
-
     public ArrayList<Integer[]> getEnemiesPic() {
-        return (ArrayList<Integer[]>) enemiesPic;
+        return enemiesPic;
     }
 
     public void setEnemiesPic(ArrayList<Integer[]> enemiesPic) {
-        this.enemiesPic = (ArrayList<Integer[]>) enemiesPic;
+        this.enemiesPic = enemiesPic;
+    }
+    public Covid getCovid() {
+        return covid;
+    }
+
+    public static boolean isCoronaStage() {
+        return coronaStage;
+    }
+
+    public static void setCoronaStage(boolean coronaStage) {
+        Stage.coronaStage = coronaStage;
     }
 
     public int getTime() {
@@ -135,11 +170,19 @@ public class Stage {
     }
 
     public ArrayList<Integer[]> getPeoplePic() {
-        return (ArrayList<Integer[]>) peoplePic;
+        return peoplePic;
     }
 
     public void setPeoplePic(ArrayList<Integer[]> peoplePic) {
-        this.peoplePic = (ArrayList<Integer[]>) peoplePic;
+        this.peoplePic = peoplePic;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
 
@@ -181,5 +224,55 @@ public class Stage {
             peoples.add(new People(resources, peoplePic.get(i), minSpeed, maxSpeed));
         }
         return peoples;
+    }
+    public void upgradeDifficult() {
+        this.setMinSpeed(this.getMinSpeed() + 1);
+        this.setMaxSpeed(this.getMaxSpeed() + 1);
+    }
+
+    public void resetDifficult() {
+        this.setMinSpeed(10);
+        this.setMaxSpeed(20);
+        covid.x = screenX;
+        covid.y = random.nextInt(screenY - covid.height);
+    }
+
+    public void goToNextStage() {
+
+        this.setNumberOfEnemies(this.getNumberOfEnemies() + 1);
+        this.setEnemiesPic(this.updateEnemiesPicArray());
+        this.updateEnemiesPicArray();
+        this.updateEnemiesArray();
+
+        this.setNumberOfPeople(this.getNumberOfPeople() + 1);
+        this.setPeoplePic(this.updatePeoplesPicArray());
+        this.updatePeoplesPicArray();
+        this.updatePeoplesArray();
+
+        resetDifficult();
+        stageGuide();
+        this.setTime(this.getTime() + 3);
+        this.setLevel(this.getLevel() + 1);
+
+        if (this.getLevel()%3 == 0){
+                coronaStage = true;
+        }
+
+    }
+    public void stageGuide() {
+        ArrayList<Integer> enemies = new ArrayList<>();
+        for (Integer[] i : this.getEnemiesPic()) {
+            enemies.add(i[0]);
+        }
+        InfoFragment fragment = InfoFragment.newInstance(enemies, this.lives, this.getLevel());
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(android.R.id.content, fragment, "lal");
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        do {
+            assert fragment.getArguments() != null;
+        } while ((boolean) fragment.getArguments().get("fragmentIsOpen"));
     }
 }
