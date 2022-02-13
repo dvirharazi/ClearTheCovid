@@ -1,10 +1,9 @@
-package com.example.dvir_game_try;
+package com.example.ClearTheCovid;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,14 +21,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameView extends SurfaceView implements Runnable {
     private Thread thread;

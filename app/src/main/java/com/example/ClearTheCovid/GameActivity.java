@@ -1,20 +1,11 @@
-package com.example.dvir_game_try;
+package com.example.ClearTheCovid;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
-
-import Fragments.GuideFragment_1;
-import Fragments.GuideFragment_2;
-import Fragments.GuideFragment_3;
 
 public class GameActivity extends BaseActivity {
 

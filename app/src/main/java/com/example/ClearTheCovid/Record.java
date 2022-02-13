@@ -1,4 +1,4 @@
-package com.example.dvir_game_try;
+package com.example.ClearTheCovid;
 
 public class Record {
     private String name;

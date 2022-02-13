@@ -1,6 +1,5 @@
 package Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,10 +14,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
-import com.example.dvir_game_try.MainActivity;
-import com.example.dvir_game_try.R;
+import com.example.ClearTheCovid.R;
 
 public class GuideFragment_3 extends Fragment {
     @Nullable

@@ -14,9 +14,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
-import com.example.dvir_game_try.R;
+import com.example.ClearTheCovid.R;
 
 public class GuideFragment_2 extends Fragment {
     @Nullable

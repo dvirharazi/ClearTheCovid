@@ -8,18 +8,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
-import com.example.dvir_game_try.MainActivity;
-import com.example.dvir_game_try.R;
+import com.example.ClearTheCovid.R;
 
 public class GuideFragment_1 extends Fragment {
 

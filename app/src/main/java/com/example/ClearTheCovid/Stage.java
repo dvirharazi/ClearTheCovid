@@ -1,4 +1,4 @@
-package com.example.dvir_game_try;
+package com.example.ClearTheCovid;
 
 import android.content.res.Resources;
 
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Fragments.GuideFragment_2;
 import Fragments.InfoFragment;
 
 public class Stage {
