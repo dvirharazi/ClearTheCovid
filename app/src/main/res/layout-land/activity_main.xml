@@ -76,7 +76,7 @@
         android:background="@drawable/s_btn"
         android:padding="10dp"
         android:scaleType="fitXY"
-        android:text="guide"
+        android:text="@string/guide"
         android:textAlignment="center"
         android:textColor="@color/black"/>
 

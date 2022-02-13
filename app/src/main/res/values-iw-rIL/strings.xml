@@ -10,9 +10,13 @@
     <string name="save">שמור</string>
     <string name="setting">הגדרות</string>
     <string name="music">צלילים</string>
-    <string name="guide">מדריך</string>
+    <string name="guide">איך לשחק</string>
     <string name="back_to_menu">חזור למשחק</string>
     <string name="lives">חיים</string>
     <string name="level">שלב</string>
     <string name="home">חזרה לתפריט הראשי</string>
+    <string name="please_enter_your_name">בבקשה הכנס את שמך</string>
+    <string name="click_on_infected">לחץ על הנגועים</string>
+    <string name="click_5_times_to_clear_the_covid">לחץ 5 פעמים בכדי להעלים</string>
+    <string name="find_the_infected_and_put_mask">מצא את הנגועים ותשים מסכה</string>
 </resources>

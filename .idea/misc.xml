@@ -3,43 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/drawable/btn_selector.xml" value="0.2703125" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/drawable/change_to_mask.xml" value="0.20572916666666666" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/drawable/enemies_layout_random.xml" value="0.14635416666666667" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/drawable/music_main_btn_selector.xml" value="0.2703125" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/font/font.xml" value="0.1" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/activity_base.xml" value="0.21516754850088182" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/activity_game.xml" value="0.21516754850088182" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/activity_main.xml" value="0.17391304347826086" />
+        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/activity_record.xml" value="0.264" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/guide_fragment.xml" value="0.16666666666666666" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/guide_fragment_1.xml" value="0.1" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/guide_fragment_2.xml" value="0.17063492063492064" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/guide_fragment_3.xml" value="0.21516754850088182" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/guide_fragment_4.xml" value="0.21516754850088182" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/guide_fregment_1.xml" value="0.21516754850088182" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/guide_fregment_2.xml" value="0.21516754850088182" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/info_fregment.xml" value="0.21516754850088182" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/menu_dialog.xml" value="0.152" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/next_level_info.xml" value="0.2" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/record_layout.xml" value="0.1" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout-land/save_record_dialog.xml" value="0.1" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/guide_fragment.xml" value="0.196875" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/guide_fragment_1.xml" value="0.25416666666666665" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/guide_fragment_3.xml" value="0.25416666666666665" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/guide_fragment_4.xml" value="0.25416666666666665" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/guide_fregment_1.xml" value="0.25416666666666665" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/guide_fregment_2.xml" value="0.25416666666666665" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/info_fregment.xml" value="0.25416666666666665" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/menu_dialog.xml" value="0.25416666666666665" />
-        <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/next_level_info.xml" value="0.15" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/record_layout.xml" value="0.1" />
         <entry key="..\:/CodeAndroidExample/dvir_game_try/app/src/main/res/layout/save_record_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/Djtsa/AndroidStudioProjects/ClearTheCovid/app/src/main/res/layout-land/activity_main.xml" value="0.31040564373897706" />
+        <entry key="..\:/Users/Djtsa/AndroidStudioProjects/ClearTheCovid/app/src/main/res/layout-land/activity_record.xml" value="0.31040564373897706" />
+        <entry key="..\:/Users/Djtsa/AndroidStudioProjects/ClearTheCovid/app/src/main/res/layout-land/guide_fragment_1.xml" value="0.17372134038800705" />
+        <entry key="..\:/Users/Djtsa/AndroidStudioProjects/ClearTheCovid/app/src/main/res/layout-land/record_layout.xml" value="0.17372134038800705" />
+        <entry key="..\:/Users/Djtsa/AndroidStudioProjects/ClearTheCovid/app/src/main/res/layout-land/save_record_dialog.xml" value="0.17372134038800705" />
+        <entry key="..\:/Users/Djtsa/AndroidStudioProjects/ClearTheCovid/app/src/main/res/layout/activity_main.xml" value="0.2536231884057971" />
+        <entry key="..\:/Users/Djtsa/AndroidStudioProjects/ClearTheCovid/app/src/main/res/layout/activity_record.xml" value="0.28306159420289856" />
+        <entry key="..\:/Users/Djtsa/AndroidStudioProjects/ClearTheCovid/app/src/main/res/layout/guide_fragment_1.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
