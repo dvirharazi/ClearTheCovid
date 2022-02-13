@@ -46,7 +46,7 @@ public class RecordAdapter extends BaseAdapter {
         TextView recordIndex = convertView.findViewById(R.id.record_index);
 
         username.setText(record.getName());
-        points.setText(record.getPoint());
+        points.setText(String.valueOf(record.getPoint()));
         recordIndex.setText(record.getId());
 
         return convertView;

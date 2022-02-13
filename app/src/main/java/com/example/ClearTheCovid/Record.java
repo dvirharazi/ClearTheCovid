@@ -2,7 +2,7 @@ package com.example.ClearTheCovid;
 
 public class Record {
     private String name;
-    private String point;
+    private Integer point;
     private String id;
 
     @Override
@@ -14,7 +14,7 @@ public class Record {
                 '}';
     }
 
-    public Record(String name, String point, String id) {
+    public Record(String name, Integer point, String id) {
         this.name = name;
         this.point = point;
         this.id = id;
@@ -28,7 +28,7 @@ public class Record {
         this.name = name;
     }
 
-    public String getPoint() {
+    public Integer getPoint() {
         return point;
     }
 

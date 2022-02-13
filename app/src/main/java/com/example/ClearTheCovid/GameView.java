@@ -171,6 +171,11 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void saveIfHighScore() {
         Map<String, ?> keys = sp.getAll();
+//            for (Map.Entry<String, ?> entry : keys.entrySet()) {
+//            SharedPreferences.Editor editor = sp.edit();
+//            editor.remove(entry.getKey());
+//            editor.apply();
+//            }
         if (sp.getAll().size() < 10) {
             openDialog();
         } else {

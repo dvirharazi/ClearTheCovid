@@ -64,8 +64,10 @@ public class RecordActivity extends BaseActivity {
         String score = getIntent().getStringExtra("score");
 
 
-        if (name != null) {
-            Record record = new Record(name, score, "1");
+
+
+        if (score != null) {
+            Record record = new Record(name, Integer.parseInt(score), "1");
             System.out.println(record);
             topRecords.add(record);
 
@@ -110,7 +112,7 @@ public class RecordActivity extends BaseActivity {
         for (Map.Entry<String, ?> entry : keys.entrySet()) {
             String infoRecord = (String) entry.getValue();
             String[] info = infoRecord.split("\\s+");
-            record = new Record(info[1], info[0], "");
+            record = new Record(info[1], Integer.parseInt(info[0]), "");
             topRecords.add(record);
         }
     }
