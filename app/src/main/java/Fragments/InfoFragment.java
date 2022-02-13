@@ -87,6 +87,7 @@ public class InfoFragment extends Fragment {
             public void onClick(View v) {
                 assert getArguments() != null;
                 getArguments().putBoolean("fragmentIsOpen", false);
+                getArguments().putIntegerArrayList("enemy_for_screen", (ArrayList<Integer>) getArguments().get("enemiesList"));
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });

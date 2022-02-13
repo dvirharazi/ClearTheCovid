@@ -150,6 +150,8 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
             canvas.drawText(score + "", screenX / 2f, 150, paint);
+
+
             if (isGameOver) {
                 isPlaying = false;
                 getHolder().unlockCanvasAndPost(canvas);

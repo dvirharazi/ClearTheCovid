@@ -16,7 +16,7 @@ import Fragments.GuideFragment_1;
 import Fragments.GuideFragment_2;
 import Fragments.GuideFragment_3;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends BaseActivity {
 
 //    public static float screenRatioX, screenRatioY;
     private GameView gameView;
@@ -24,8 +24,6 @@ public class GameActivity extends AppCompatActivity {
     private Stage stage;
     private SharedPreferences sp;
     private static Boolean isMusicPlaying = false;
-    final String GUIDE_FRAGMENT_TAG = "guide_fragment";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +34,7 @@ public class GameActivity extends AppCompatActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
 
-        stage = new Stage(this, getResources(),1, 2, 3, 10, 10,20, point.x,point.y);
+        stage = new Stage(this, getResources(),1, 2, 3, 60, 10,20, point.x,point.y);
         gameView = new GameView(this, point.x, point.y, stage);
 
         setContentView(gameView);

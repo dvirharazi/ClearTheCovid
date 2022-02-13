@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Fragments.GuideFragment_2;
 import Fragments.InfoFragment;
 
 public class Stage {
@@ -37,9 +38,9 @@ public class Stage {
 
 
     private Covid covid;
-    List<Integer[]> characterRecycleList = new ArrayList<>();
+    static List<Integer[]> characterRecycleList = new ArrayList<>();
 
-    List<Integer[]> characterList = new ArrayList<>();
+    static List<Integer[]> characterList = new ArrayList<>();
 
 
 
@@ -84,8 +85,8 @@ public class Stage {
         this.numberOfPeople = numberOfPeople;
         this.enemiesPic = updateEnemiesPicArray();
         this.peoplePic = updatePeoplesPicArray();
-        this.peoples = updatePeoplesArray();
         this.enemies = updateEnemiesArray();
+        this.peoples = updatePeoplesArray();
         this.time = time;
 
 
@@ -228,6 +229,10 @@ public class Stage {
     public void upgradeDifficult() {
         this.setMinSpeed(this.getMinSpeed() + 1);
         this.setMaxSpeed(this.getMaxSpeed() + 1);
+
+        if(this.getMinSpeed()% 5 == 0){
+            coronaStage = true;
+        }
     }
 
     public void resetDifficult() {
@@ -253,11 +258,6 @@ public class Stage {
         stageGuide();
         this.setTime(this.getTime() + 3);
         this.setLevel(this.getLevel() + 1);
-
-        if (this.getLevel()%3 == 0){
-                coronaStage = true;
-        }
-
     }
     public void stageGuide() {
         ArrayList<Integer> enemies = new ArrayList<>();
@@ -268,8 +268,9 @@ public class Stage {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(android.R.id.content, fragment, "lal");
-        transaction.addToBackStack(null);
+        transaction.addToBackStack("info");
         transaction.commit();
+
 
         do {
             assert fragment.getArguments() != null;

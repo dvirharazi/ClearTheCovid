@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:background="@color/white"/>
+            android:background="@drawable/stone_dialog"/>
 
     </LinearLayout>
 
