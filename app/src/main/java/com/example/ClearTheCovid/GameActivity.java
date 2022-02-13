@@ -20,7 +20,7 @@ public class GameActivity extends BaseActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
 
-        stage = new Stage(this, getResources(),1, 2, 3, 60, 10,20, point.x,point.y);
+        stage = new Stage(this, getResources(),1, 2, 3, 40, 10,20, point.x,point.y);
         gameView = new GameView(this, point.x, point.y, stage);
 
         setContentView(gameView);

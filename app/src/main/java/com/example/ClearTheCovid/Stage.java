@@ -205,9 +205,12 @@ public class Stage {
             characterRecycleList.add(characterList.get(specificObject));
             characterList.remove(characterList.get(specificObject));
         }
+        return peoplePic;
+    }
+
+    public void resetThePictureList() {
         characterList.addAll(characterRecycleList);
         characterRecycleList.clear();
-        return peoplePic;
     }
 
     public ArrayList<Enemy> updateEnemiesArray() {
@@ -252,6 +255,8 @@ public class Stage {
         this.setPeoplePic(this.updatePeoplesPicArray());
         this.updatePeoplesPicArray();
         this.updatePeoplesArray();
+
+        this.resetThePictureList();
 
         resetDifficult();
         stageGuide();

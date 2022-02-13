@@ -55,6 +55,7 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setColor(Color.WHITE);
 
         this.stage = stage;
+        this.stage.resetThePictureList();
 
         random = new Random();
 
